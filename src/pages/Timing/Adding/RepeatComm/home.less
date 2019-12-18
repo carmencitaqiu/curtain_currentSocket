@@ -1,0 +1,122 @@
+.repeat-content{
+  height: 100%;
+  //background: #ffffff;
+  .repeat-top{
+    background: #ffffff;
+    padding-top: 20px;
+    display: flex;
+    position: relative;
+    .repeat-title{
+      width: 100%;
+      font-size: 48px;
+      height: 132px;
+      line-height: 132px;
+      text-align: center;
+    }
+
+    .add{
+      font-size: 40px;
+      height: 132px;
+      line-height: 132px;
+      position: absolute;
+      right: 10%;
+    }
+  }
+}
+
+
+.checkbox-box{
+  margin-top: 50px;
+  background: #ffffff;
+  div{
+    width:100%;
+    height: 150px;
+    position: relative;
+  }
+  .checkbox-label{
+    width: 100%;
+    display: inline-block;
+    height: 150px;
+    line-height: 150px;
+    font-size: 44px;
+    margin-left: 44px;
+    background: white;
+    position: absolute;
+    border-top: 1px solid #eeeeee;
+  }
+  .checkbox-input{
+    position: absolute;
+    width: 100%;
+    height: 150px;
+    vertical-align: bottom;
+    margin-right:.1rem;
+    opacity: 0;
+  }
+  .spot{
+    display:inline-block;
+    width:48px;
+    height:150px;
+    position: relative;
+    left:85%;
+    z-index:5;
+  }
+  input:checked + .spot{
+    background: url(../../../../static/images/icon_mark.png) center no-repeat;  /*选中后的样式图片*/
+    background-size:contain;
+  }
+}
+
+
+.custom-box{
+  margin-top: 200px;
+  width:100%;
+  height: 150px;
+  position: relative;
+  .custom-label{
+    width: 100%;
+    display: inline-block;
+    height: 150px;
+    line-height: 150px;
+    font-size: 44px;
+    padding-left: 44px;
+    background: white;
+    position: absolute;
+    border-top: 1px solid #eeeeee;
+  }
+  .custom-input{
+    position: absolute;
+    width: 100%;
+    height: 150px;
+    vertical-align: bottom;
+    margin-right:.1rem;
+    opacity: 0;
+  }
+  .more{
+    display:inline-block;
+    width:48px;
+    height:150px;
+    position: relative;
+    left:85%;
+    z-index:5;
+    background: url(../../../../static/images/list_icon_arrow.png) center no-repeat;
+    background-size:contain;
+  }
+
+  .checked{
+    display:inline-block;
+    width:48px;
+    height:150px;
+    position: relative;
+    left:85%;
+    z-index:5;
+    background: url(../../../../static/images/icon_mark.png) center no-repeat;
+    background-size:contain;
+  }
+}
+
+.custom-span{
+  color: #9BA3B0;
+  font-size: 36px;
+  margin-top: 44px;
+  margin-left: 44px;
+}

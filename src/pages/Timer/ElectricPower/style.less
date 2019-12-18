@@ -1,0 +1,136 @@
+.electric-power {
+  height: 100%;
+  background-color: #fff;
+
+  .title-box {
+    font-size: 44px;
+    height: 500px;
+    line-height: 132px;
+    text-align: center;
+    background: linear-gradient(#548eff, #37a1fb, #76c9fc, #fff);
+    color: #fff;
+  }
+
+  .content-box {
+    height: 500px;
+    width: 1000px;
+    background: #fff;
+    border-radius: 15px 15px 15px 15px;
+    box-shadow: 0 5px 50px rgba(0, 0, 0, 0.1);
+    position: relative;
+    bottom: 325px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    .electric-amount {
+      flex: 1.2;
+      margin: 70px 50px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0;
+      .amount {
+        color: #9ba3b0;
+        font-size: 36px;
+        align-items: center;
+        justify-content: center;
+        letter-spacing: 2px;
+        flex: 1;
+        margin: 0 40px;
+        text-align: center;
+
+        div {
+          &:nth-child(2) {
+            font-size: 78px;
+            color: #2f3243;
+            font-weight: 700;
+            padding-top: 25px;
+
+            span {
+              font-size: 54px;
+              padding-left: 15px;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+      .space {
+        margin: 25px 20px;
+        width: 3px;
+        height: 140px;
+        background: #eee;
+      }
+    }
+
+    .electric-detail {
+      flex: 1;
+      margin: 0px 55px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      text-align: center;
+      .current-amount {
+        div {
+          color: #2f3243;
+          font-size: 36px;
+          &:nth-child(2) {
+            font-size: 54px;
+            color: #9ba3b0;
+            margin-top: 15px;
+            font-weight: 400;
+            span {
+              font-size: 36px;
+              padding-left: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .chart-box {
+    height: 900px;
+    width: 1000px;
+    background: #fff;
+    border-radius: 15px 15px 15px 15px;
+    box-shadow: 0 5px 50px rgba(0, 0, 0, 0.1);
+    margin: -230px auto;
+    display: flex;
+    flex-direction: column;
+    .charts-box-top {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 40px;
+      .am-list-item {
+        padding: 0;
+      }
+      .am-list-item .am-list-line .am-list-extra {
+        flex: 1;
+        font-size: 42px;
+        color: #2f3243;
+      }
+      .am-list-item .am-list-line .am-list-arrow {
+        background-size: 50%;
+      }
+      .use-amount {
+        display: flex;
+        color: #2f3243;
+        padding-top: 40px;
+        div {
+          font-size: 42px;
+          &:nth-child(1) {
+            color: #9ba3b0;
+            padding-right: 25px;
+          }
+        }
+      }
+    }
+    .charts-box-bottom {
+      flex: 1;
+      .echarts {
+        height: 600px;
+      }
+    }
+  }
+}

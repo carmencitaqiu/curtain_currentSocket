@@ -1,0 +1,426 @@
+@import "../../../common/static/css/common.less";
+@import "./antd-mobile-hack.less";
+
+@gatewayH: 270px; //网关图标的高度
+@botH: 140px; //悬浮底部的高度
+@botBtnH: 140px * 0.9; //悬浮底部的按钮高度
+@downWidth: 3 px; //向下箭头的宽度
+
+/* 首页顶部底部 */
+.Top {
+  position: relative;
+  width: 100%;
+  height: 575px;
+  padding-top: (575px * 1.12 - @gatewayH)/2;
+  color: #202020;
+
+  .Top-name {
+    position: absolute;
+    left: 80px;
+    top: 75px;
+    font-size: 48px;
+  }
+
+  .Top-icon {
+    margin: 0 auto;
+    width: 300px;
+    height: @gatewayH;
+    background: url("../images/gateway.png") no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .Top-tips {
+    position: absolute;
+    left: 80px;
+    bottom: 45px;
+    font-size: 36px;
+  }
+}
+
+.Bot {
+  position: absolute;
+  //background: #fff;
+  top: 0;
+  width: 100%;
+  height: @botH;
+  text-align: center;
+  //border-top: 1px solid #dbdddc;
+
+  .Bot-add {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 28px;
+    margin-top: (@botH - @botBtnH)/2;
+    height: @botBtnH;
+    font-size: 39px;
+    color: #202020;
+    border: 0 none;
+    background: transparent;
+
+    i {
+      display: inline-block;
+      vertical-align: middle;
+      margin-top: -6px;
+      margin-right: 28px;
+      width: 54px;
+      height: 54px;
+
+      background: transparent url("../images/add.png") no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+
+  .Bot-button {
+    position: absolute;
+    right: 25px;
+    top: (@botH - @botBtnH)/2;
+    padding: 0 25px;
+    height: @botBtnH;
+    line-height: @botBtnH;
+    font-size: 36px;
+    color: #999;
+
+    i {
+      display: inline-block;
+      vertical-align: middle;
+      width: 50px;
+      height: 50px;
+      margin-top: -9px;
+      margin-right: 15px;
+      background: url("../images/icon_more.png") no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+}
+
+/* 设备列表 */
+.List-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.List-name {
+  height: 120px;
+  line-height: 120px;
+  padding-left: 80px;
+  font-size: 42px;
+  font-weight: normal;
+  color: #202020;
+  background-color: #eeeeef;
+}
+
+.List {
+  position: relative;
+  font-size: 36px;
+  color: #202020;
+
+  .List-item {
+    position: relative;
+
+    .List-inner {
+      position: relative;
+      padding: 32px 15px 34px 195px;
+      line-height: 60px;
+
+      span {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .List-right {
+        position: absolute;
+        right: 60px;
+        top: 62px;
+        margin-top: -30px;
+        padding-right: 60px;
+        font-size: 32px;
+        height: 60px;
+        line-height: 60px;
+        color: #9a9a9a;
+        white-space: nowrap;
+
+        .List-down {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          margin-top: -15px;
+          width: 20px;
+          height: 20px;
+          border: 1px solid #b2b2b2;
+          border-right-color: transparent;
+          border-bottom-color: transparent;
+          -webkit-transform: rotate(-135deg);
+          transform: rotate(-135deg);
+          -webkit-transition: all 300ms;
+          transition: all 300ms;
+
+          &.selected {
+            margin-top: -5px;
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+        }
+      }
+    }
+
+    &.List-item-hasList .List-inner {
+      padding-right: 180px;
+    }
+
+    .List-icon {
+      position: absolute;
+      top: 62px;
+      left: 90px;
+      margin-top: -36px;
+      width: 72px;
+      height: 72px;
+      background: no-repeat;
+      background-size: 100% 100%;
+
+      &.List-icon-humidity {
+        background-image: url("../images/humidity.png");
+      }
+
+      &.List-icon-door {
+        background-image: url("../images/door.png");
+      }
+
+      &.List-icon-infrared {
+        background-image: url("../images/infrared.png");
+      }
+
+      &.List-icon-socket {
+        background-image: url("../images/socket.png");
+      }
+    }
+
+    .List-follow {
+      margin-left: 60px;
+      font-size: 32px;
+      color: #9a9a9a;
+    }
+
+    .List-list {
+      position: relative;
+      padding: 12px 0;
+
+      .List-inner {
+        padding: 32px 15px 34px 280px;
+
+        .List-icon {
+          left: 175px;
+        }
+      }
+
+      .List-item {
+        &::after {
+          display: none;
+        }
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 85px;
+        right: 15px;
+        height: 0;
+        border-top: 1px solid #d2d2d2;
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 85px;
+      right: 15px;
+      height: 0;
+      border-bottom: 1px solid #d2d2d2;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+  }
+
+  &.List-noborder>.List-item:last-child::after {
+    display: block;
+  }
+}
+
+/* 设置页 */
+.Setting-top {
+  width: 100%;
+  height: 120px;
+  line-height: 120px;
+  padding: 0 0 0 95px;
+  font-size: 40px;
+  color: #9BA3B0;
+}
+
+.Setting-name {
+  position: relative;
+  height: 170px;
+  padding-top: 26px;
+  overflow: hidden;
+
+  p {
+    padding-left: 98px;
+  }
+
+  .Setting-name-tips {
+    height: 56px;
+    line-height: 56px;
+    font-size: 36px;
+    color: #999;
+  }
+
+  .Setting-name-txt {
+    height: 62px;
+    line-height: 62px;
+    font-size: 42px;
+    color: #212121;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 85px;
+    width: 100%;
+    height: 0;
+    border-bottom: 1px solid #d2d2d2;
+  }
+}
+
+.Setting-list {
+  position: relative;
+  font-size: 42px;
+  color: #202020;
+
+  .Setting-list-item {
+    position: relative;
+    padding: 53px 300px 54px 98px;
+    line-height: 60px;
+    overflow: hidden;
+
+    .Setting-list-right-txt {
+      position: absolute;
+      right: 106px;
+      top: 50%;
+      margin-top: -30px;
+      height: 60px;
+      line-height: 60px;
+      white-space: nowrap;
+    }
+
+    .Setting-list-right {
+      position: absolute;
+      right: 55px;
+      top: 50%;
+      margin-top: -10px;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #999;
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+      -webkit-transform: rotate(135deg);
+      transform: rotate(135deg);
+    }
+
+    .Setting-list-selected {
+      position: absolute;
+      right: 70px;
+      top: 50%;
+      margin-top: -18px;
+      width: 52px;
+      height: 36px;
+      background: url("../images/selected.png") no-repeat;
+      background-size: 100% 100%;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 85px;
+      width: 100%;
+      height: 0;
+      border-bottom: 1px solid #d2d2d2;
+    }
+  }
+}
+
+/* 自定义弹出框 */
+.Modal {
+  font-size: 45px;
+  color: #212121;
+
+  .Modal-inner {
+    max-height: 510px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .Modal-content {
+      width: 100%;
+
+      .Modal-txt {
+        padding: 45px;
+        height: 367px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .Modal-input {
+    padding: 69px 80px;
+
+    .Modal-input-tit {
+      font-size: 42px;
+      text-align: left;
+    }
+
+    .Modal-input-wrap {
+      padding: 63px 0 25px;
+
+      input {
+        font-family: "Microsoft YaHei";
+        width: 100%;
+        padding: 0 15px 0 30px;
+        height: 98px;
+        line-height: 98px;
+        font-size: 42px;
+        border: 0;
+        background-color: #eeeeef;
+      }
+
+      input::-webkit-input-placeholder {
+        font-size: 42px;
+        color: #ccc;
+        padding-left: 0;
+      }
+
+      input::placeholder {
+        font-size: 42px;
+        color: #ccc;
+        padding-left: 0;
+      }
+    }
+  }
+
+  .Modal-bottom {
+    .flex;
+    border-top: 1px solid #d2d2d2;
+
+    .Modal-btn {
+      .flex-cell;
+      height: 138px;
+      line-height: 138px;
+
+      &:first-child {
+        border-right: 1px solid #d2d2d2;
+      }
+    }
+  }
+}

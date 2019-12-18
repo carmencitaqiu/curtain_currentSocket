@@ -1,0 +1,83 @@
+.adding-content{
+  height: 100%;
+  //background: #ffffff;
+}
+
+.adding-top{
+  background: #ffffff;
+  padding-top: 20px;
+  display: flex;
+  position: relative;
+  .adding-title{
+    width: 100%;
+    font-size: 48px;
+    height: 132px;
+    line-height: 132px;
+    text-align: center;
+  }
+
+  .add{
+    font-size: 40px;
+    height: 132px;
+    line-height: 132px;
+    position: absolute;
+    right: 10%;
+  }
+}
+
+
+.radio-box{
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+  .radio-title{
+    margin-left: 44px;
+    height:110px;
+    line-height:110px;
+    font-size: 44px;
+  }
+  label{
+    left: 45%;
+    display:inline-block;
+    width:230px;
+    height:110px;
+    line-height:110px;
+    position: relative;
+  }
+  label input{
+    width: 45px;
+    height: 45px;
+    vertical-align: bottom;
+    margin-right:.1rem;
+    opacity: 0;
+  }
+  label span{
+    position: absolute;
+    display: inline-block;
+    height:110px;
+    line-height:110px;
+    font-size: 44px;
+  }
+  .spot{
+    display:inline-block;
+    width:48px;
+    height:110px;
+    background: url(../../../static/images/icon_radio_off.png) center no-repeat;  /*默认的样式图片*/
+    background-size:contain;
+    position: absolute;
+    left:0;
+    z-index:5;
+  }
+  input:checked + .spot{
+    background: url(../../../static/images/icon_radio_on.png) center no-repeat;  /*选中后的样式图片*/
+    background-size:contain;
+  }
+}
+
+
+.repeat-list{
+  margin-top: 80px;
+}

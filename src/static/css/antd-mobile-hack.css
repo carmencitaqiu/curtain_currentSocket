@@ -1,0 +1,15 @@
+.DN-model .am-modal {
+  width: 81.74%;
+}
+.DN-model .am-modal-content {
+  padding-top: 0;
+}
+.DN-model .am-modal-transparent .am-modal-content .am-modal-body {
+  padding: 0;
+}
+.DC-model .am-modal {
+  width: 100%;
+}
+.DC-model .am-modal .am-modal-content {
+  border-radius: 15px 15px 0 0;
+}

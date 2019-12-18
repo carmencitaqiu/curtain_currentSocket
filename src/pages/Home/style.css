@@ -1,0 +1,178 @@
+.box-header {
+  height: 800px;
+  background: #1d2839;
+}
+.box-header .name {
+  font-size: 60px;
+  color: #fff;
+  text-align: center;
+  height: 132px;
+  line-height: 132px;
+}
+.box-header .hanger-img {
+  background: url(../../static/images/hanger.png) no-repeat;
+  display: block;
+  margin: 160px auto 200px auto;
+  width: 300px;
+  height: 300px;
+  background-size: contain;
+}
+.bg-img-size {
+  background-size: contain;
+  width: 60px;
+  height: 60px;
+  display: block;
+}
+.lighting {
+  height: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 85px;
+  background: #fff;
+}
+.lighting.onOpen .lighten {
+  color: #46adf7;
+}
+.lighting.onOpen .lighting-img {
+  background: url(../../static/images/lighting-open.png) no-repeat;
+  background-size: contain;
+  width: 60px;
+  height: 60px;
+  display: block;
+}
+.lighting .lighten {
+  font-size: 40px;
+  color: #5e5e5e;
+}
+.lighting .lighting-img {
+  background: url(../../static/images/lighting-close.png) no-repeat;
+  background-size: contain;
+  width: 60px;
+  height: 60px;
+  display: block;
+}
+.bg-img {
+  background-size: contain;
+  width: 60px;
+  height: 60px;
+  display: block;
+}
+.Controller {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 200px;
+  background: #fff;
+  margin-top: 25px;
+}
+.Controller .switch-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 34%;
+  border-right: 1px solid #eeefef;
+}
+.Controller .switch-box > i {
+  background-size: contain;
+  width: 60px;
+  height: 60px;
+  display: block;
+}
+.Controller .switch-box.on span {
+  color: #46adf7;
+}
+.Controller .switch-box.on .down-img {
+  background-image: url(../../static/images/down-open.png);
+}
+.Controller .switch-box.on .up-img {
+  background-image: url(../../static/images/up-open.png);
+}
+.Controller .switch-box.on .stop-img {
+  background-image: url(../../static/images/stop-open.png);
+}
+.Controller .switch-box:last-child {
+  border-right: none;
+}
+.Controller .switch-box span {
+  color: #b4b4b4;
+  font-size: 40px;
+  padding-top: 30px;
+}
+.Controller .down-img {
+  background: url(../../static/images/down-close.png) center no-repeat;
+}
+.Controller .up-img {
+  background: url(../../static/images/up-close.png) center no-repeat;
+}
+.Controller .stop-img {
+  background: url(../../static/images/stop-close.png) center no-repeat;
+}
+.icon-img {
+  background-size: contain;
+  width: 70px;
+  height: 70px;
+  display: block;
+  margin-right: 45px;
+}
+.Functional {
+  background: #fff;
+  margin-top: 25px;
+}
+.Functional .list-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px 0 85px;
+  height: 150px;
+  border-bottom: 1px solid #ededed;
+}
+.Functional .list-box .details-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.Functional .list-box .details-box .drying-img {
+  background: url(../../static/images/drying.png) center no-repeat;
+  background-size: contain;
+  width: 70px;
+  height: 70px;
+  display: block;
+  margin-right: 45px;
+}
+.Functional .list-box .details-box .sterilize-img {
+  background: url(../../static/images/sterilize.png) center no-repeat;
+  background-size: contain;
+  width: 70px;
+  height: 70px;
+  display: block;
+  margin-right: 45px;
+}
+.Functional .list-box .details-box .seasoning-img {
+  background: url(../../static/images/seasoning.png) center no-repeat;
+  background-size: contain;
+  width: 70px;
+  height: 70px;
+  display: block;
+  margin-right: 45px;
+}
+.Functional .list-box .details-box .explain span {
+  display: block;
+}
+.Functional .list-box .details-box .explain span:nth-child(1) {
+  color: #000;
+  font-size: 40px;
+  padding-bottom: 24px;
+}
+.Functional .list-box .details-box .explain span:nth-child(2) {
+  color: #b6b6b6;
+  font-size: 32px;
+}
+.Functional .list-box .arrow {
+  background: url(../../static/images/arrow.png) center no-repeat;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  display: block;
+}

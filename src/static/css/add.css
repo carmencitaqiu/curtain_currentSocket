@@ -1,0 +1,486 @@
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+}
+input[type="button"],
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="password"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="password"] {
+  border: 1px solid #dedede;
+}
+input[type="button"] {
+  background: none;
+  border: none;
+  text-align: center;
+}
+.flex-cell {
+  display: block;
+  /* OLD */
+  width: 100%;
+  /* OLD */
+}
+.flex,
+.flex-column {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+.flex {
+  -webkit-box-orient: horizontal;
+  /* OLD */
+  -moz-box-orient: horizontal;
+  /* OLD */
+  -ms-box-orient: horizontal;
+  /* OLD */
+  -webkit-flex-flow: row;
+  -moz-flex-flow: row;
+  -ms-flex-flow: row;
+  flex-flow: row;
+}
+.flex-column {
+  -webkit-box-orient: vertical;
+  /* OLD */
+  -moz-box-orient: vertical;
+  /* OLD */
+  -ms-box-orient: vertical;
+  /* OLD */
+  -webkit-flex-flow: column;
+  -moz-flex-flow: column;
+  -ms-flex-flow: column;
+  flex-flow: column;
+}
+.flex-cell {
+  -webkit-box-flex: 1;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: 1;
+  /* OLD - Firefox 19- */
+  -webkit-flex: 1;
+  /* Chrome */
+  -ms-flex: 1;
+  /* IE 10 */
+  flex: 1;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+.DN-model .am-modal {
+  width: 81.74%;
+}
+.DN-model .am-modal-content {
+  padding-top: 0;
+}
+.DN-model .am-modal-transparent .am-modal-content .am-modal-body {
+  padding: 0;
+}
+.DC-model .am-modal {
+  width: 100%;
+}
+.DC-model .am-modal .am-modal-content {
+  border-radius: 15px 15px 0 0;
+}
+/* 首页顶部底部 */
+.Top {
+  position: relative;
+  width: 100%;
+  height: 575px;
+  padding-top: 187px;
+  color: #202020;
+}
+.Top .Top-name {
+  position: absolute;
+  left: 80px;
+  top: 75px;
+  font-size: 48px;
+}
+.Top .Top-icon {
+  margin: 0 auto;
+  width: 300px;
+  height: 270px;
+  background: url("../images/gateway.png") no-repeat;
+  background-size: 100% 100%;
+}
+.Top .Top-tips {
+  position: absolute;
+  left: 80px;
+  bottom: 45px;
+  font-size: 36px;
+}
+.Bot {
+  position: absolute;
+  background: #fff;
+  bottom: 0;
+  width: 100%;
+  height: 140px;
+  text-align: center;
+  border-top: 1px solid #dbdddc;
+}
+.Bot .Bot-add {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 28px;
+  margin-top: 7px;
+  height: 126px;
+  font-size: 39px;
+  color: #202020;
+  border: 0 none;
+  background: transparent;
+}
+.Bot .Bot-add i {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -6px;
+  margin-right: 28px;
+  width: 54px;
+  height: 54px;
+  background: transparent url("../images/add.png") no-repeat;
+  background-size: 100% 100%;
+}
+.Bot .Bot-button {
+  position: absolute;
+  right: 25px;
+  top: 7px;
+  padding: 0 25px;
+  height: 126px;
+  line-height: 126px;
+  font-size: 36px;
+  color: #999;
+}
+.Bot .Bot-button i {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  margin-top: -9px;
+  margin-right: 15px;
+  background: url("../images/control.png") no-repeat;
+  background-size: 100% 100%;
+}
+/* 设备列表 */
+.List-wrap {
+  position: relative;
+  width: 100%;
+}
+.List-name {
+  height: 120px;
+  line-height: 120px;
+  padding-left: 80px;
+  font-size: 42px;
+  font-weight: normal;
+  color: #202020;
+  background-color: #eeeeef;
+}
+.List {
+  position: relative;
+  font-size: 36px;
+  color: #202020;
+}
+.List .List-item {
+  position: relative;
+}
+.List .List-item .List-inner {
+  position: relative;
+  padding: 32px 15px 34px 195px;
+  line-height: 60px;
+}
+.List .List-item .List-inner span {
+  display: inline-block;
+  vertical-align: top;
+}
+.List .List-item .List-inner .List-right {
+  position: absolute;
+  right: 60px;
+  top: 62px;
+  margin-top: -30px;
+  padding-right: 60px;
+  font-size: 32px;
+  height: 60px;
+  line-height: 60px;
+  color: #9a9a9a;
+  white-space: nowrap;
+}
+.List .List-item .List-inner .List-right .List-down {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -15px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #b2b2b2;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+  -webkit-transition: all 300ms;
+  transition: all 300ms;
+}
+.List .List-item .List-inner .List-right .List-down.selected {
+  margin-top: -5px;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.List .List-item.List-item-hasList .List-inner {
+  padding-right: 180px;
+}
+.List .List-item .List-icon {
+  position: absolute;
+  top: 62px;
+  left: 90px;
+  margin-top: -36px;
+  width: 72px;
+  height: 72px;
+  background: no-repeat;
+  background-size: 100% 100%;
+}
+.List .List-item .List-icon.List-icon-humidity {
+  background-image: url("../images/humidity.png");
+}
+.List .List-item .List-icon.List-icon-door {
+  background-image: url("../images/door.png");
+}
+.List .List-item .List-icon.List-icon-infrared {
+  background-image: url("../images/infrared.png");
+}
+.List .List-item .List-icon.List-icon-socket {
+  background-image: url("../images/socket.png");
+}
+.List .List-item .List-follow {
+  margin-left: 60px;
+  font-size: 32px;
+  color: #9a9a9a;
+}
+.List .List-item .List-list {
+  position: relative;
+  padding: 12px 0;
+}
+.List .List-item .List-list .List-inner {
+  padding: 32px 15px 34px 280px;
+}
+.List .List-item .List-list .List-inner .List-icon {
+  left: 175px;
+}
+.List .List-item .List-list .List-item::after {
+  display: none;
+}
+.List .List-item .List-list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 85px;
+  right: 15px;
+  height: 0;
+  border-top: 1px solid #d2d2d2;
+}
+.List .List-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 85px;
+  right: 15px;
+  height: 0;
+  border-bottom: 1px solid #d2d2d2;
+}
+.List .List-item:last-child::after {
+  display: none;
+}
+.List.List-noborder > .List-item:last-child::after {
+  display: block;
+}
+/* 设置页 */
+.Setting-top {
+  width: 100%;
+  height: 190px;
+  padding: 75px 0 0 95px;
+  font-size: 48px;
+  color: #212121;
+  border-bottom: 1px solid #d2d2d2;
+}
+.Setting-name {
+  position: relative;
+  height: 170px;
+  padding-top: 26px;
+  overflow: hidden;
+}
+.Setting-name p {
+  padding-left: 98px;
+}
+.Setting-name .Setting-name-tips {
+  height: 56px;
+  line-height: 56px;
+  font-size: 36px;
+  color: #999;
+}
+.Setting-name .Setting-name-txt {
+  height: 62px;
+  line-height: 62px;
+  font-size: 42px;
+  color: #212121;
+}
+.Setting-name::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 85px;
+  width: 100%;
+  height: 0;
+  border-bottom: 1px solid #d2d2d2;
+}
+.Setting-list {
+  position: relative;
+  font-size: 42px;
+  color: #202020;
+}
+.Setting-list .Setting-list-item {
+  position: relative;
+  padding: 53px 300px 54px 98px;
+  line-height: 60px;
+  overflow: hidden;
+}
+.Setting-list .Setting-list-item .Setting-list-right-txt {
+  position: absolute;
+  right: 106px;
+  top: 50%;
+  margin-top: -30px;
+  height: 60px;
+  line-height: 60px;
+  white-space: nowrap;
+}
+.Setting-list .Setting-list-item .Setting-list-right {
+  position: absolute;
+  right: 55px;
+  top: 50%;
+  margin-top: -10px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #999;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+.Setting-list .Setting-list-item .Setting-list-selected {
+  position: absolute;
+  right: 70px;
+  top: 50%;
+  margin-top: -18px;
+  width: 52px;
+  height: 36px;
+  background: url("../images/selected.png") no-repeat;
+  background-size: 100% 100%;
+}
+.Setting-list .Setting-list-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 85px;
+  width: 100%;
+  height: 0;
+  border-bottom: 1px solid #d2d2d2;
+}
+/* 自定义弹出框 */
+.Modal {
+  font-size: 45px;
+  color: #212121;
+}
+.Modal .Modal-inner {
+  max-height: 510px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.Modal .Modal-inner .Modal-content {
+  width: 100%;
+}
+.Modal .Modal-inner .Modal-content .Modal-txt {
+  padding: 45px;
+  height: 367px;
+  vertical-align: middle;
+}
+.Modal .Modal-input {
+  padding: 69px 80px;
+}
+.Modal .Modal-input .Modal-input-tit {
+  font-size: 42px;
+  text-align: left;
+}
+.Modal .Modal-input .Modal-input-wrap {
+  padding: 63px 0 25px;
+}
+.Modal .Modal-input .Modal-input-wrap input {
+  font-family: "Microsoft YaHei";
+  width: 100%;
+  padding: 0 15px 0 30px;
+  height: 98px;
+  line-height: 98px;
+  font-size: 42px;
+  border: 0;
+  background-color: #eeeeef;
+}
+.Modal .Modal-input .Modal-input-wrap input::-webkit-input-placeholder {
+  font-size: 42px;
+  color: #ccc;
+  padding-left: 0;
+}
+.Modal .Modal-input .Modal-input-wrap input::placeholder {
+  font-size: 42px;
+  color: #ccc;
+  padding-left: 0;
+}
+.Modal .Modal-bottom {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  -webkit-box-orient: horizontal;
+  /* OLD */
+  -moz-box-orient: horizontal;
+  /* OLD */
+  -ms-box-orient: horizontal;
+  /* OLD */
+  -webkit-flex-flow: row;
+  -moz-flex-flow: row;
+  -ms-flex-flow: row;
+  flex-flow: row;
+  border-top: 1px solid #d2d2d2;
+}
+.Modal .Modal-bottom .Modal-btn {
+  display: block;
+  /* OLD */
+  width: 100%;
+  /* OLD */
+  -webkit-box-flex: 1;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: 1;
+  /* OLD - Firefox 19- */
+  -webkit-flex: 1;
+  /* Chrome */
+  -ms-flex: 1;
+  /* IE 10 */
+  flex: 1;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  height: 138px;
+  line-height: 138px;
+}
+.Modal .Modal-bottom .Modal-btn:first-child {
+  border-right: 1px solid #d2d2d2;
+}

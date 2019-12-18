@@ -1,0 +1,41 @@
+@import "../../../common/static/css/reset.less";
+@import "../../../common/static/css/common.less";
+
+body,
+button {
+  font-family: "Microsoft YaHei";
+}
+
+.container {
+  background: #eeeeef;
+  //background: #343b45;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  min-height: 1%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  .flex-column;
+}
+
+.inner {
+  .flex-cell;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.Int-05em {
+  padding: 0 0.25em;
+}
+
+.Int-1em {
+  padding: 0 0.5em;
+}
+
+.Int-2em {
+  padding: 0 1em;
+}
