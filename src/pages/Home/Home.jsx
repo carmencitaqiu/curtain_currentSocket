@@ -33,6 +33,7 @@ class Home extends Component {
   // 检查设备是否启动
   checkPower = () => {
     const { deviceStore, history } = this.props;
+    let {touch} = this.props;    
     const { POWER } = deviceStore.currentStatus || {};
     if (POWER === "1") return true;
     else if (POWER === undefined) {
@@ -43,6 +44,24 @@ class Home extends Component {
       return false;
     }
   };
+
+  curtainTouchStart = (e) => {
+    e.preventDefault();
+    console.log('touchstart');
+    this.props.touch.initiated = true;
+    this.props.touch.startX = e.touches[0].pageX;
+
+  }
+  curtainTouchMove = (e) => {
+    e.preventDefault();
+    console.log('touchmove');
+  }
+
+  curtainTouchEnd = (e) => {
+    e.preventDefault();
+    console.log("touchend");
+  }
+
   render() {
     const { gatewayStore } = this.props;
     const { choosePower = true , haveChoose = false} = gatewayStore;
@@ -53,28 +72,21 @@ class Home extends Component {
     return (
       <MainPage>
         <div className={"box-header" + (POWER === '0' ? '' : ' open')}>
-          <div className="name">插座</div>
-
-          {
-            choosePower ?
-              <div>
-                <div className={"img" + (POWER === '0' ? '' : ' open')}>
-                  <i className="hanger-img power" />
-                </div>
-              </div>
-              :
-              <div>
-                <div className={"img" + (POWER === '0' ? '' : ' open')}>
-                  <i className="hanger-img usb" />
-                </div>
-              </div>
-          }
-
-          <div className='socket-state'>插座已{ POWER === '0'? '关闭' : '开启'}</div>
-          <div className={"socket-time" + (POWER === '0' ? '' : ' open')}>将于4小时44分钟开启</div>
+          <div className="name">窗帘</div>
+          <div className="curtain-block">
+            <div className="curtain-header"></div>
+            <div className="curtain-body">
+             <div className="curtain-left"></div>
+             <div className="curtain-right"></div>
+             <div className="curtain-btn" ref="curtainBtn" 
+             onTouchStart={this.curtainTouchStart} 
+             onTouchMove={this.curtainTouchMove} 
+             onTouchEnd={this.curtainTouchEnd}></div>
+            </div>
+          </div>
         </div>
 
-        <Power />
+        {/* <Power /> */}
 
         <List/>
 

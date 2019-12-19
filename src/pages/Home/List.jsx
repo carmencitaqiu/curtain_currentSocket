@@ -16,7 +16,7 @@ class List extends Component {
         <Link to="/Timing/Timing">
           <div className={"switch-box"}>
             <i className="timing-img" />
-            <span>定时</span>
+            <span>打开窗帘</span>
           </div>
         </Link>
 
@@ -24,14 +24,14 @@ class List extends Component {
         <Link to="/Timer/Countdown">
           <div className={"switch-box"}>
             <i className="down-img" />
-            <span>倒计时</span>
+            <span>暂停</span>
           </div>
         </Link>
 
         <Link to="/Timer/ElectricPower">
           <div className={"switch-box"}>
             <i className="electric-img" />
-            <span>电量统计</span>
+            <span>关闭窗帘</span>
           </div>
         </Link>
       </div>
