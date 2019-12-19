@@ -9,6 +9,7 @@ import Power from  "./Power";
 import ModalPowerOff from "./ModalPowerOff";
 
 import "./style.less";
+import Curtain from "./Curtain";
 
 @inject("gatewayStore", "deviceStore")
 @withRouter
@@ -45,22 +46,6 @@ class Home extends Component {
     }
   };
 
-  curtainTouchStart = (e) => {
-    e.preventDefault();
-    console.log('touchstart');
-    this.props.touch.initiated = true;
-    this.props.touch.startX = e.touches[0].pageX;
-
-  }
-  curtainTouchMove = (e) => {
-    e.preventDefault();
-    console.log('touchmove');
-  }
-
-  curtainTouchEnd = (e) => {
-    e.preventDefault();
-    console.log("touchend");
-  }
 
   render() {
     const { gatewayStore } = this.props;
@@ -73,19 +58,8 @@ class Home extends Component {
       <MainPage>
         <div className={"box-header" + (POWER === '0' ? '' : ' open')}>
           <div className="name">窗帘</div>
-          <div className="curtain-block">
-            <div className="curtain-header"></div>
-            <div className="curtain-body">
-             <div className="curtain-left"></div>
-             <div className="curtain-right"></div>
-             <div className="curtain-btn" ref="curtainBtn" 
-             onTouchStart={this.curtainTouchStart} 
-             onTouchMove={this.curtainTouchMove} 
-             onTouchEnd={this.curtainTouchEnd}></div>
-            </div>
-          </div>
+          <Curtain />
         </div>
-
         {/* <Power /> */}
 
         <List/>

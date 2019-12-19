@@ -11,6 +11,8 @@ import socketStore from "./socketStore";
 
 import hangerStore from "./hangerStore";
 
+import curtainStore from "./curtainStore";
+
 import conifg from "./baseStore/configStore";
 import mockDataStore from "./mockDataStore";
 
@@ -20,7 +22,7 @@ let store = {
   gatewayStore,
   timeStore,
   socketStore,
-
+  curtainStore,
   hangerStore
 };
 if (conifg.debug) {
