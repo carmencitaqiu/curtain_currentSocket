@@ -28,7 +28,7 @@ class DeviceStore extends BaseStore {
   manufacturer = ""; // 设备厂商ID
   brand = ""; // 品牌ID
   model = ""; // 型号ID
-  deviceOnLine = ""; // 设备状态 - 0：离线，1：在线
+  @observable deviceOnLine = "1"; // 设备状态 - 0：离线，1：在线
 
   @observable deviceStatus = []; // 设备当前状态，设备的全部状态，如开关，模式等。
   @observable deviceAttributes = []; // 设备属性列表
@@ -427,7 +427,8 @@ class DeviceStore extends BaseStore {
             return d;
           }) || [], // 设备属性列表
         subDevList: subDevList || [], // 子设备列表，设备为网关时包含
-        deviceChangeed: this.deviceChangeed + 1
+        deviceChangeed: this.deviceChangeed + 1,
+        deviceOnLine:deviceOnLine
       });
 
       // NOTE  获取房间列表 - 延时500ms

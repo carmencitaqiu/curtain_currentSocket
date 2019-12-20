@@ -57,10 +57,11 @@ class Home extends Component {
 
     const { deviceStore } = this.props;
     const { POWER = '0' } = deviceStore.currentStatus || {};
+    const { deviceOnLine } = deviceStore;
 
     return (
       <MainPage>
-        <div className={"box-header" + (POWER === '0' ? '' : ' open')}>
+        <div className={"box-header" + (deviceOnLine === '1' ? ' open' : '')}>
           <div className="name">窗帘</div>
           <Curtain ref="curtain" onRef={this.onRef}/>
         </div>
