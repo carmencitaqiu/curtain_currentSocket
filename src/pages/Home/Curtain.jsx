@@ -59,7 +59,6 @@ class Curtain extends Component {
               deviceStore.setState({
                 deviceChangeed: deviceStore.deviceChangeed + 1
               });
-              deviceStore.toastString("设置成功");
             }
           );
     }

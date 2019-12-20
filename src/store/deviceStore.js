@@ -360,7 +360,7 @@ class DeviceStore extends BaseStore {
 
     // NOTE 如果是调试模式，这里会给一款默认调试设备
     if (configStore.debug) {
-      deviceId = deviceId || "00B0150102020310210659151785768923";
+      deviceId = deviceId || "D1D0010001085212052019122000013217";
     }
     this.deviceId = deviceId;
 
