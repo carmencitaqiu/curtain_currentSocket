@@ -22,6 +22,7 @@
         -webkit-transform: translate3d(0,0,0);
         transform: translate3d(0,0,0);
         transition: all 5s;
+        -webkit-transition: all 5s;
         // animation:curtain_close 10s;
         // animation: curtain_open 10s;
       }
@@ -53,15 +54,18 @@
         // animation:anim_open 10s  linear;
         // -webkit-animation: anim_open 10s linear;
         animation: anim_open 5s 1 ease;
+        -webkit-animation: anim_open 5s 1 ease;
         // width: 5%;
       }
       .curtain_close {
         // animation: anim_close 10s  linear;
         // -webkit-animation: anim_close 10s  linear;
         animation: anim_close 5s 1 ease;
+        -webkit-animation: anim_close 5s 1 ease;
         // width: 50%;
       }
       .pause {
+        -webkit-animation-play-state:paused;
         animation-play-state: paused;
       }
     }
