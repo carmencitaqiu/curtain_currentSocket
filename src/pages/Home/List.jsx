@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 import {Link} from 'react-router-dom';
 
 
-@inject("gatewayStore")
+@inject("gatewayStore","curtainStore")
 @withRouter
 @observer
 class List extends Component {
@@ -15,6 +15,7 @@ class List extends Component {
   
 
   render() {
+    const { percent, playIcon } = this.props.curtainStore;
     return (
       <div className="Controller">
 
@@ -25,7 +26,7 @@ class List extends Component {
 
 
           <div className={"switch-box"} onClick={this.props.suspend}>
-            <i className="down-img" />
+            <i className={`${playIcon}`} />
             <span>暂停</span>
           </div>
 

@@ -61,21 +61,23 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
 
-        this.refs.curtainLeft.classList.add('curtain_open');
-        this.refs.curtainRight.classList.add('curtain_open');
+        // this.refs.curtainLeft.classList.add('curtain_open');
+        // this.refs.curtainRight.classList.add('curtain_open');
+        
     }
 
     suspend = () => {
-        this.refs.curtainLeft.classList.remove('curtain_open');
-        this.refs.curtainRight.classList.remove('curtain_open');
+        // this.refs.curtainLeft.classList.remove('curtain_open');
+        // this.refs.curtainRight.classList.remove('curtain_open');
+
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
     }
 
 
     closeCurtain = () => {
-        this.refs.curtainLeft.classList.remove('curtain_open');
-        this.refs.curtainRight.classList.remove('curtain_open');
+        // this.refs.curtainLeft.classList.remove('curtain_open');
+        // this.refs.curtainRight.classList.remove('curtain_open');
 
         this.refs.curtainLeft.classList.add('curtain_close');
         this.refs.curtainRight.classList.add('curtain_close');

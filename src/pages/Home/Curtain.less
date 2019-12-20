@@ -22,6 +22,7 @@
         width:5%;
         -webkit-transform: translate3d(0,0,0);
         transform: translate3d(0,0,0);
+        transition: all 5s;
         // animation:curtain_close 10s;
         // animation: curtain_open 10s;
       }
@@ -44,12 +45,14 @@
         border-bottom-right-radius: 15px;
       }
       .curtain_open {
-        animation:anim_open 10s  linear;
-        -webkit-animation: anim_open 10s linear;
+        // animation:anim_open 10s  linear;
+        // -webkit-animation: anim_open 10s linear;
+        width: 5%;
       }
       .curtain_close {
-        animation: anim_close 10s  linear;
-        -webkit-animation: anim_close 10s  linear;
+        // animation: anim_close 10s  linear;
+        // -webkit-animation: anim_close 10s  linear;
+        width: 50%;
       }
     }
   }
