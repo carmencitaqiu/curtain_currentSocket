@@ -58,12 +58,15 @@ class Curtain extends Component {
     }
 
     openCurtain = () => {
+        curtainStore.togglePlay();
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
 
-        curtainStore.togglePlay();
-        // this.refs.curtainLeft.classList.add('curtain_open');
-        // this.refs.curtainRight.classList.add('curtain_open');
+        this.refs.curtainLeft.classList.remove('pause');
+        this.refs.curtainRight.classList.remove('pause');
+
+        this.refs.curtainLeft.classList.add('curtain_open');
+        this.refs.curtainRight.classList.add('curtain_open');
         
     }
 
@@ -71,16 +74,23 @@ class Curtain extends Component {
         // this.refs.curtainLeft.classList.remove('curtain_open');
         // this.refs.curtainRight.classList.remove('curtain_open');
 
-        curtainStore.togglePlay();        
-        this.refs.curtainLeft.classList.remove('curtain_close');
-        this.refs.curtainRight.classList.remove('curtain_close');
+        // curtainStore.togglePlay();        
+        // this.refs.curtainLeft.classList.remove('curtain_close');
+        // this.refs.curtainRight.classList.remove('curtain_close');
+
+        this.refs.curtainLeft.classList.add('pause');
+        this.refs.curtainRight.classList.add('pause');
     }
 
 
     closeCurtain = () => {
-        // this.refs.curtainLeft.classList.remove('curtain_open');
-        // this.refs.curtainRight.classList.remove('curtain_open');
+        this.refs.curtainLeft.classList.remove('curtain_open');
+        this.refs.curtainRight.classList.remove('curtain_open');
         curtainStore.togglePlay();
+
+        this.refs.curtainLeft.classList.remove('pause');
+        this.refs.curtainRight.classList.remove('pause');
+
         this.refs.curtainLeft.classList.add('curtain_close');
         this.refs.curtainRight.classList.add('curtain_close');
     }

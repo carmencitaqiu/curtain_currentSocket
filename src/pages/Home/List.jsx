@@ -27,7 +27,7 @@ class List extends Component {
 
           <div className={"switch-box"} onClick={this.props.suspend}>
             <i className={`${playIcon}`} />
-              <span>{isPlaying ? '暂停' : '开始'}</span>
+              <span>暂停</span>
           </div>
 
           <div className={"switch-box"} onClick={this.props.closeCurtain}>

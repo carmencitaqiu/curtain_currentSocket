@@ -47,30 +47,27 @@
       .curtain_open {
         // animation:anim_open 10s  linear;
         // -webkit-animation: anim_open 10s linear;
-        width: 5%;
+        animation: anim_open 5s 1 ease;
+        // width: 5%;
       }
       .curtain_close {
         // animation: anim_close 10s  linear;
         // -webkit-animation: anim_close 10s  linear;
-        width: 50%;
+        animation: anim_close 5s 1 ease;
+        // width: 50%;
+      }
+      .pause {
+        animation-play-state: paused;
       }
     }
   }
 
-  @-webkit-keyframes anim_close {
-    0% {width: 5%;}
-    // 20% {width: 14%}
-    // 40% {width: 23%}
-    // 60% {width: 32%}
-    // 80% {width: 41%}
-    100% {width: 50%}
+  @keyframes anim_close {
+    from {width: 5%;}
+    to {width: 50%}
   }
 
-  @-webkit-keyframes anim_open {
-    0% {width: 50%}
-    // 20% {width: 41%}
-    // 40% {width: 32%}
-    // 60% {width: 23%}
-    // 80% {width: 14%}
-    100% {width: 5%;}
+  @keyframes anim_open {
+    from {width: 50%}
+    to {width: 5%;}
   }

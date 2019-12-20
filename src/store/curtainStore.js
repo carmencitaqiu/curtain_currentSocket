@@ -33,7 +33,7 @@ class CurtainStore extends BaseStore {
 	}
 
 	@computed get playIcon() {
-		return this.isPlaying ? 'pause_icon' : 'play_icon';
+		return this.isPlaying ? 'pause_icon' : 'pause_icon';
 	}
 }
 
