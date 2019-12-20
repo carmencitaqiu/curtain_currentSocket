@@ -6,8 +6,8 @@ import "./Curtain.less"
 @inject("curtainStore")
 @observer
 class Curtain extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             touch : {
                 startX:null
@@ -30,6 +30,7 @@ class Curtain extends Component {
  
     componentDidMount() {
         this.props.curtainStore.getPercent();
+        this.props.onRef && this.props.onRef(this);
     }
 
     
@@ -53,6 +54,31 @@ class Curtain extends Component {
 
     curtainTouchEnd = (leftOfRight,e) => {
         console.log("touchend");
+    }
+
+    openCurtain = () => {
+        
+        this.refs.curtainLeft.classList.remove('curtain_close');
+        this.refs.curtainRight.classList.remove('curtain_close');
+
+        this.refs.curtainLeft.classList.add('curtain_open');
+        this.refs.curtainRight.classList.add('curtain_open');
+    }
+
+    suspend = () => {
+        this.refs.curtainLeft.classList.remove('curtain_open');
+        this.refs.curtainRight.classList.remove('curtain_open');
+        this.refs.curtainLeft.classList.remove('curtain_close');
+        this.refs.curtainRight.classList.remove('curtain_close');
+    }
+
+
+    closeCurtain = () => {
+        this.refs.curtainLeft.classList.remove('curtain_open');
+        this.refs.curtainRight.classList.remove('curtain_open');
+
+        this.refs.curtainLeft.classList.add('curtain_close');
+        this.refs.curtainRight.classList.add('curtain_close');
     }
 
 

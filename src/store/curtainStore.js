@@ -4,6 +4,7 @@ import BaseStore from "./baseStore/BaseStore";
 
 class CurtainStore extends BaseStore {
 	@observable percent = 0;
+	@observable isPlaying = false;
 
 	/**
 	 * @method 获取进度百分比
@@ -25,6 +26,14 @@ class CurtainStore extends BaseStore {
 		this.setState({
 			percent: per
 		});
+	}
+
+	@action togglePlay() {
+		this.isPlaying = !this.isPlaying;
+	}
+
+	@computed get playIcon() {
+		return this.isPlaying ? 'pause_icon' : 'play_icon';
 	}
 }
 

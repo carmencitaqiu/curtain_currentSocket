@@ -46,6 +46,10 @@ class Home extends Component {
     }
   };
 
+  onRef=(ref)=>{
+    this.curtain=ref;
+  }
+
 
   render() {
     const { gatewayStore } = this.props;
@@ -58,14 +62,27 @@ class Home extends Component {
       <MainPage>
         <div className={"box-header" + (POWER === '0' ? '' : ' open')}>
           <div className="name">窗帘</div>
-          <Curtain />
+          <Curtain ref="curtain" onRef={this.onRef}/>
         </div>
-        {/* <Power /> */}
+        <List 
+        openCurtain = {
+          () => {
+            this.curtain.openCurtain && this.curtain.openCurtain()
+          }
+        }
+        closeCurtain = {
+          () => {
+            this.curtain.closeCurtain && this.curtain.closeCurtain()
+          }
+        }
 
-        <List/>
-
-         <Bottom />
-
+        suspend = {
+          () => {
+            this.curtain.suspend && this.curtain.suspend()
+          }
+        }
+        />
+        <Bottom />
         <ModalPowerOff />
       </MainPage>
     );
