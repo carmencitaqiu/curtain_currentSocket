@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
 import "./Curtain.less"
+import curtainStore from "../../store/curtainStore";
 
 @inject("curtainStore")
 @observer
@@ -57,10 +58,10 @@ class Curtain extends Component {
     }
 
     openCurtain = () => {
-        
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
 
+        curtainStore.togglePlay();
         // this.refs.curtainLeft.classList.add('curtain_open');
         // this.refs.curtainRight.classList.add('curtain_open');
         
@@ -70,6 +71,7 @@ class Curtain extends Component {
         // this.refs.curtainLeft.classList.remove('curtain_open');
         // this.refs.curtainRight.classList.remove('curtain_open');
 
+        curtainStore.togglePlay();        
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
     }
@@ -78,7 +80,7 @@ class Curtain extends Component {
     closeCurtain = () => {
         // this.refs.curtainLeft.classList.remove('curtain_open');
         // this.refs.curtainRight.classList.remove('curtain_open');
-
+        curtainStore.togglePlay();
         this.refs.curtainLeft.classList.add('curtain_close');
         this.refs.curtainRight.classList.add('curtain_close');
     }

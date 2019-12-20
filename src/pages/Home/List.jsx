@@ -15,7 +15,7 @@ class List extends Component {
   
 
   render() {
-    const { percent, playIcon } = this.props.curtainStore;
+    const { percent, playIcon,isPlaying } = this.props.curtainStore;
     return (
       <div className="Controller">
 
@@ -27,7 +27,7 @@ class List extends Component {
 
           <div className={"switch-box"} onClick={this.props.suspend}>
             <i className={`${playIcon}`} />
-            <span>暂停</span>
+              <span>{isPlaying ? '暂停' : '开始'}</span>
           </div>
 
           <div className={"switch-box"} onClick={this.props.closeCurtain}>
