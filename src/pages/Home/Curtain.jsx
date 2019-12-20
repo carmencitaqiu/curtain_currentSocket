@@ -4,7 +4,7 @@ import { inject, observer } from "mobx-react";
 import "./Curtain.less"
 import curtainStore from "../../store/curtainStore";
 
-@inject("curtainStore")
+@inject("curtainStore","deviceStore")
 @observer
 class Curtain extends Component {
     constructor(props) {
@@ -27,6 +27,41 @@ class Curtain extends Component {
             const targetWidth = Math.min(halfWidth,offsetWidth);
             this._offset(targetWidth);
         }
+    }
+
+    /**
+     * 发设备指令
+     */
+    setDeviceCmd(cmdNum) {
+        const { deviceStore } = this.props;
+        const { deviceId, curSerialId } = deviceStore;
+        // NOTE 执行设备控制具体的操作
+        deviceStore.controlDevice(
+            {
+              deviceId,
+              serialId: curSerialId,
+              actionCmdSerial: [
+                {
+                  cmdName: "SET_MOTOR_POS",
+                  cmdParam: cmdNum
+                }
+              ]
+            },
+            () => {
+              deviceStore.deviceStatus
+                .filter(d => d.serialId == curSerialId)[0]
+                .deviceStatusSerial.forEach(d => {
+                //   if (d.statusName === "MOTOR_POS") {
+                //     d.curStatusValue = "0";
+                //   }
+                });
+              //强制刷新
+              deviceStore.setState({
+                deviceChangeed: deviceStore.deviceChangeed + 1
+              });
+              deviceStore.toastString("设置成功");
+            }
+          );
     }
  
     componentDidMount() {
@@ -59,6 +94,12 @@ class Curtain extends Component {
 
     openCurtain = () => {
         curtainStore.togglePlay();
+        this.refs.curtainLeft.classList.remove('w_50');
+        this.refs.curtainRight.classList.remove('w_50');
+
+        this.refs.curtainLeft.classList.add('w_5');
+        this.refs.curtainRight.classList.add('w_5');
+
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
 
@@ -67,7 +108,8 @@ class Curtain extends Component {
 
         this.refs.curtainLeft.classList.add('curtain_open');
         this.refs.curtainRight.classList.add('curtain_open');
-        
+
+        this.setDeviceCmd('100');
     }
 
     suspend = () => {
@@ -78,12 +120,22 @@ class Curtain extends Component {
         // this.refs.curtainLeft.classList.remove('curtain_close');
         // this.refs.curtainRight.classList.remove('curtain_close');
 
+        this.refs.curtainLeft.classList.remove('w_5');
+        this.refs.curtainRight.classList.remove('w_5');
+
         this.refs.curtainLeft.classList.add('pause');
         this.refs.curtainRight.classList.add('pause');
+
+        this.setDeviceCmd('999');
     }
 
 
     closeCurtain = () => {
+        this.refs.curtainLeft.classList.remove('w_5');
+        this.refs.curtainRight.classList.remove('w_5');
+
+        this.refs.curtainLeft.classList.add('w_50');
+        this.refs.curtainRight.classList.add('w_50');
         this.refs.curtainLeft.classList.remove('curtain_open');
         this.refs.curtainRight.classList.remove('curtain_open');
         curtainStore.togglePlay();
@@ -93,23 +145,26 @@ class Curtain extends Component {
 
         this.refs.curtainLeft.classList.add('curtain_close');
         this.refs.curtainRight.classList.add('curtain_close');
+
+        this.setDeviceCmd('0');
     }
 
 
 
 
     render() {
-        const { percent } = this.props.curtainStore;
+        const { percent} = this.props.curtainStore;
+        const { MOTOR_POS = "0"} = this.props.deviceStore.currentStatus || {};
         return (
             <div className="curtain-block">
                 <div className="curtain-header"></div>
                 <div className="curtain-body" ref="curtainBody">
-                    <div className="curtain-left" ref="curtainLeft"
+                    <div className={`curtain-left ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} ref="curtainLeft"
                         onTouchStart={(e) => this.curtainTouchStart('left',e)}
                         onTouchMove={(e) => this.curtainTouchMove('left',e)}
                         onTouchEnd={(e) => this.curtainTouchEnd('left',e)}
                     ></div>
-                    <div className="curtain-right" ref="curtainRight"
+                    <div className={`curtain-right ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} ref="curtainRight"
                         onTouchStart={(e) => this.curtainTouchStart('left',e)}
                         onTouchMove={(e) => this.curtainTouchMove('left',e)}
                         onTouchEnd={(e) => this.curtainTouchEnd('left',e)}

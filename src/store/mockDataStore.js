@@ -44,7 +44,8 @@ class MockDataStore extends BaseStore {
               { curStatusValue: "15", statusName: "WORK_TIME" },
 
               { curStatusValue: "0", statusName: "DIRECTION" },
-              { curStatusValue: "1", statusName: "TOP_POSITION" }
+              { curStatusValue: "1", statusName: "TOP_POSITION" },
+              { curStatusValue: "100", statusName: "MOTOR_POS"}
             ],
             serialId: 0,
             serialName: "线路一"
