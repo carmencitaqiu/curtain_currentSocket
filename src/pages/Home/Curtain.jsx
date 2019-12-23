@@ -218,7 +218,7 @@ class Curtain extends Component {
                 <div className="curtain-header"></div>
                 <div className="curtain-body" ref="curtainBody">
                     <div className={`curtain-left ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} 
-                    style={{transition:`all 0s`,webkitTransition: `all 0s`}}
+                    style={{transition:`all 0s`,WebkitTransition: `all 0s`}}
                     ref="curtainLeft"
                     >
                         <div className="curtain-btn-leftWrapper"
@@ -230,7 +230,7 @@ class Curtain extends Component {
                         </div>
                     </div>
                     <div className={`curtain-right ${MOTOR_POS === '100' ? 'w_5':'w_50'}`}
-                    style={{transition:`all 0s`,webkitTransition: `all 0s`}}
+                    style={{transition:`all 0s`,WebkitTransition: `all 0s`}}
                     ref="curtainRight"
                     onTouchStart={(e) => this.curtainTouchStart('left',e)}
                     onTouchMove={(e) => this.curtainTouchMove('left',e)}
