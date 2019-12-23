@@ -75,7 +75,7 @@ class Curtain extends Component {
         const { deviceStore } = this.props;
         const { deviceId, curSerialId } = deviceStore;
         // NOTE 执行设备控制具体的操作
-        deviceStore.controlDevice(
+        curtainStore.controlDevice(
             {
               deviceId,
               serialId: curSerialId,
@@ -87,13 +87,6 @@ class Curtain extends Component {
               ]
             },
             () => {
-              deviceStore.deviceStatus
-                .filter(d => d.serialId == curSerialId)[0]
-                .deviceStatusSerial.forEach(d => {
-                //   if (d.statusName === "MOTOR_POS") {
-                //     d.curStatusValue = "0";
-                //   }
-                });
               //强制刷新
               deviceStore.setState({
                 deviceChangeed: deviceStore.deviceChangeed + 1
@@ -133,11 +126,11 @@ class Curtain extends Component {
     openCurtain = () => {
         // curtainStore.togglePlay();
 
-        this.refs.curtainLeft.classList.remove('w_50');
-        this.refs.curtainRight.classList.remove('w_50');
+        // this.refs.curtainLeft.classList.remove('w_50');
+        // this.refs.curtainRight.classList.remove('w_50');
 
-        this.refs.curtainLeft.classList.add('w_5');
-        this.refs.curtainRight.classList.add('w_5');
+        // this.refs.curtainLeft.classList.add('w_5');
+        // this.refs.curtainRight.classList.add('w_5');
 
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
@@ -194,8 +187,8 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.add('curtain_close');
         this.refs.curtainRight.classList.add('curtain_close');
 
-        this.refs.curtainLeft.style.webkitAnimation = 'anim_close 10s';
-        this.refs.curtainRight.style.webkitAnimation = 'anim_close 10s';
+        // this.refs.curtainLeft.style.webkitAnimation = 'anim_close 10s';
+        // this.refs.curtainRight.style.webkitAnimation = 'anim_close 10s';
 
         this.setDeviceCmd('0');
     }
@@ -211,18 +204,24 @@ class Curtain extends Component {
                 <div className="curtain-header"></div>
                 <div className="curtain-body" ref="curtainBody">
                     <div className={`curtain-left ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} ref="curtainLeft"
-                     onTouchStart={(e) => this.curtainTouchStart('left',e)}
-                     onTouchMove={(e) => this.curtainTouchMove('left',e)}
-                     onTouchEnd={(e) => this.curtainTouchEnd('left',e)}
                     >
-                        <div className="curtain-btn curtain-btn-left"></div>
+                        <div className="curtain-btn-leftWrapper"
+                            onTouchStart={(e) => this.curtainTouchStart('left',e)}
+                            onTouchMove={(e) => this.curtainTouchMove('left',e)}
+                            onTouchEnd={(e) => this.curtainTouchEnd('left',e)}
+                        >
+                            <div className="curtain-btn curtain-btn-left"></div>
+                        </div>
                     </div>
                     <div className={`curtain-right ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} ref="curtainRight"
                     onTouchStart={(e) => this.curtainTouchStart('left',e)}
                     onTouchMove={(e) => this.curtainTouchMove('left',e)}
                     onTouchEnd={(e) => this.curtainTouchEnd('left',e)}
                     >
-                        <div className="curtain-btn curtain-btn-right"></div>
+                        
+                        <div className="curtain-btn-rightWrapper">
+                            <div className="curtain-btn curtain-btn-right"></div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import { observable, computed,action } from "mobx";
 import BaseStore from "./baseStore/BaseStore";
-
+import deviceStore from "./deviceStore";
 
 class CurtainStore extends BaseStore {
 	@observable percent = 0;
@@ -35,6 +35,21 @@ class CurtainStore extends BaseStore {
 	@computed get playIcon() {
 		return this.isPlaying ? 'pause_icon' : 'pause_icon';
 	}
+
+	controlDevice(cmdParam) {
+		const { deviceId, curSerialId, statusMap } = deviceStore;
+		if (statusMap[curSerialId]) {
+			deviceStore.controlDevice(cmdParam,
+			() => {
+				setTimeout(() => {
+					deviceStore.getDeviceDetail(deviceId, data => {
+						
+					});
+				  }, 500);
+			});
+		  }
+	}
+
 }
 
 const curtainStore = new CurtainStore();

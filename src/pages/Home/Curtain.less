@@ -27,28 +27,43 @@
         // animation: curtain_open 10s;
       }
       .w_5 {
-        width: 5%;
+        width: 2.5%;
       }
       .w_50 {
         width: 50%;
       }
       .curtain-btn {
-        position: absolute;
-        z-index: 10;
         width: 40px;
         height:80px;
-        top:40%;
         background-color:#fff;
         // background: url(../../static/images/curtain_btn.png) center no-repeat;
         // background-size: cover;
       }
+      .curtain-btn-leftWrapper {
+        position: absolute;
+        z-index: 10;
+        right:5px;
+        width: 200px;
+        height:200px;
+        top:40%;
+      }
+      .curtain-btn-rightWrapper {
+        position: absolute;
+        z-index: 10;
+        left:5px;
+        width: 200px;
+        height:200px;
+        top:40%;
+      }
       .curtain-btn.curtain-btn-left {
         border-radius: 40px 0 0 40px;
-        right:5px;
+        position: absolute;
+        right: 0;
       }
       .curtain-btn.curtain-btn-right {
         border-radius: 0 40px 40px 0;
-        left:5px;
+        position: absolute;
+        left: 0;
       }
       .curtain-left {
         left:0;

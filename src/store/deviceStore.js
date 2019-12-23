@@ -538,7 +538,7 @@ class DeviceStore extends BaseStore {
           this.setState({
             deviceChangeed: this.deviceChangeed + 1
           });
-          this.toastString("设置成功");
+
         };
     nativeStore.callAppMethod("jsControlDevice", data, success);
   }
