@@ -34,13 +34,21 @@
       }
       .curtain-btn {
         position: absolute;
-        width: 80px;
+        z-index: 10;
+        width: 40px;
         height:80px;
-        border-radius: 50%;
-        left:10px;
         top:40%;
-        background: url(../../static/images/curtain_btn.png) center no-repeat;
-        background-size: cover;
+        background-color:#fff;
+        // background: url(../../static/images/curtain_btn.png) center no-repeat;
+        // background-size: cover;
+      }
+      .curtain-btn.curtain-btn-left {
+        border-radius: 40px 0 0 40px;
+        right:5px;
+      }
+      .curtain-btn.curtain-btn-right {
+        border-radius: 0 40px 40px 0;
+        left:5px;
       }
       .curtain-left {
         left:0;
