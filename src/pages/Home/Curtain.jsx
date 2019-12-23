@@ -12,7 +12,8 @@ class Curtain extends Component {
         this.state = {
             touch : {
                 startX:null
-            }
+            },
+            percent:null
         };
     }
     _offset(offsetWidth) {
@@ -105,32 +106,44 @@ class Curtain extends Component {
         this.setState({
             touch: {
                 startX:e.touches[0].pageX
-            }
+            },
+            left:this.refs.curtainLeft.clientWidth
         });
 
     }
     curtainTouchMove = (leftOfRight,e) => {
         const halfWidth = this.refs.curtainBody.clientWidth * 0.49;
         const deltaX = e.touches[0].pageX - this.state.touch.startX;
-        const percent = deltaX / halfWidth;
+        const offsetWidth = Math.min(halfWidth, Math.max(0, this.state.left + deltaX))
+        const percent = offsetWidth / halfWidth;
+        if (percent < 0) {
+            return;
+        }
         if (percent > 0.05 ) {
-            this._offset(Math.min(deltaX,halfWidth));
+            this._offset(offsetWidth);
         } else {
             this.setHalfCurtainOffset(0.05);
         } 
+        this.setState({
+            percent:percent
+        });
     }
 
     curtainTouchEnd = (leftOfRight,e) => {
+        // const halfWidth = this.refs.curtainBody.clientWidth * 0.49;
+        // const deltaX = e.touches[0].pageX - this.state.touch.startX;
+        // const percent = deltaX / halfWidth;
+        this.setDeviceCmd(this.state.percent);
     }
 
     openCurtain = () => {
         // curtainStore.togglePlay();
 
-        // this.refs.curtainLeft.classList.remove('w_50');
-        // this.refs.curtainRight.classList.remove('w_50');
+        this.refs.curtainLeft.classList.remove('w_50');
+        this.refs.curtainRight.classList.remove('w_50');
 
-        // this.refs.curtainLeft.classList.add('w_5');
-        // this.refs.curtainRight.classList.add('w_5');
+        this.refs.curtainLeft.classList.add('w_5');
+        this.refs.curtainRight.classList.add('w_5');
 
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
@@ -160,11 +173,11 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.add('pause');
         this.refs.curtainRight.classList.add('pause');
 
-        this.setState({
-            touch: {
-                startX:this.refs.curtainLeft.clientWidth
-            }
-        });
+        // this.setState({
+        //     touch: {
+        //         startX:this.refs.curtainLeft.clientWidth
+        //     }
+        // });
         // this._changeAnim(this.refs.curtainLeft,'anim_close',this.refs.curtainLeft.clientWidth);
 
         this.setDeviceCmd('999');
@@ -177,9 +190,10 @@ class Curtain extends Component {
 
         this.refs.curtainLeft.classList.add('w_50');
         this.refs.curtainRight.classList.add('w_50');
+
         this.refs.curtainLeft.classList.remove('curtain_open');
         this.refs.curtainRight.classList.remove('curtain_open');
-        curtainStore.togglePlay();
+        // curtainStore.togglePlay();
 
         this.refs.curtainLeft.classList.remove('pause');
         this.refs.curtainRight.classList.remove('pause');
@@ -203,7 +217,9 @@ class Curtain extends Component {
             <div className="curtain-block">
                 <div className="curtain-header"></div>
                 <div className="curtain-body" ref="curtainBody">
-                    <div className={`curtain-left ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} ref="curtainLeft"
+                    <div className={`curtain-left ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} 
+                    style={{transition:`all 0s`,webkitTransition: `all 0s`}}
+                    ref="curtainLeft"
                     >
                         <div className="curtain-btn-leftWrapper"
                             onTouchStart={(e) => this.curtainTouchStart('left',e)}
@@ -213,7 +229,9 @@ class Curtain extends Component {
                             <div className="curtain-btn curtain-btn-left"></div>
                         </div>
                     </div>
-                    <div className={`curtain-right ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} ref="curtainRight"
+                    <div className={`curtain-right ${MOTOR_POS === '100' ? 'w_5':'w_50'}`}
+                    style={{transition:`all 0s`,webkitTransition: `all 0s`}}
+                    ref="curtainRight"
                     onTouchStart={(e) => this.curtainTouchStart('left',e)}
                     onTouchMove={(e) => this.curtainTouchMove('left',e)}
                     onTouchEnd={(e) => this.curtainTouchEnd('left',e)}
