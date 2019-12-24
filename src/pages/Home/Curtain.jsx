@@ -135,7 +135,7 @@ class Curtain extends Component {
         // const deltaX = e.touches[0].pageX - this.state.touch.startX;
         // const percent = deltaX / halfWidth;
         console.log('**********touch end:state:'+ this.state.percent * 100);
-        this.setDeviceCmd(parseInt(this.state.percent * 100).toString());
+        this.setDeviceCmd(parseInt((1-this.state.percent) * 100).toString());
     }
 
     openCurtain = () => {
@@ -216,7 +216,7 @@ class Curtain extends Component {
         const { percent} = this.props.curtainStore;
         const { MOTOR_POS = "0"} = this.props.deviceStore.currentStatus || {};
         console.log('*******curtain page ******** MOTOR_POS******' + MOTOR_POS);
-        const widthPer = parseInt(MOTOR_POS,10) * 0.5 + '%';
+        const widthPer = (100 - parseInt(MOTOR_POS,10)) * 0.5 + '%';
         return (
             <div className="curtain-block">
                 <div className="curtain-header"></div>
