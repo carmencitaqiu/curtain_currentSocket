@@ -41,11 +41,12 @@ class CurtainStore extends BaseStore {
 		if (statusMap[curSerialId]) {
 			deviceStore.controlDevice(cmdParam,
 			() => {
+				console.log('------control device success');
 				setTimeout(() => {
 					deviceStore.getDeviceDetail(deviceId, data => {
-						
+						console.log('********* device detail' + JSON.stringify(data));
 					});
-				  }, 500);
+				  }, 5000);
 			});
 		  }
 	}

@@ -76,6 +76,7 @@ class Curtain extends Component {
         const { deviceStore } = this.props;
         const { deviceId, curSerialId } = deviceStore;
         // NOTE 执行设备控制具体的操作
+        console.log('****control device begin:*****' + cmdNum);
         curtainStore.controlDevice(
             {
               deviceId,
@@ -133,7 +134,8 @@ class Curtain extends Component {
         // const halfWidth = this.refs.curtainBody.clientWidth * 0.49;
         // const deltaX = e.touches[0].pageX - this.state.touch.startX;
         // const percent = deltaX / halfWidth;
-        this.setDeviceCmd(this.state.percent);
+        console.log('**********touch end:state:'+ this.state.percent * 100);
+        this.setDeviceCmd(parseInt(this.state.percent * 100).toString());
     }
 
     openCurtain = () => {
@@ -213,12 +215,14 @@ class Curtain extends Component {
     render() {
         const { percent} = this.props.curtainStore;
         const { MOTOR_POS = "0"} = this.props.deviceStore.currentStatus || {};
+        console.log('*******curtain page ******** MOTOR_POS******' + MOTOR_POS);
+        const widthPer = parseInt(MOTOR_POS,10) * 0.5 + '%';
         return (
             <div className="curtain-block">
                 <div className="curtain-header"></div>
                 <div className="curtain-body" ref="curtainBody">
-                    <div className={`curtain-left ${MOTOR_POS === '100' ? 'w_5':'w_50'}`} 
-                    style={{transition:`all 0s`,WebkitTransition: `all 0s`}}
+                    <div className={`curtain-left`} 
+                    style={{transition:`all 0s`,WebkitTransition: `all 0s`, width:`${widthPer}`}}
                     ref="curtainLeft"
                     >
                         <div className="curtain-btn-leftWrapper"
@@ -229,8 +233,8 @@ class Curtain extends Component {
                             <div className="curtain-btn curtain-btn-left"></div>
                         </div>
                     </div>
-                    <div className={`curtain-right ${MOTOR_POS === '100' ? 'w_5':'w_50'}`}
-                    style={{transition:`all 0s`,WebkitTransition: `all 0s`}}
+                    <div className={`curtain-right`}
+                    style={{transition:`all 0s`,WebkitTransition: `all 0s`,width:`${widthPer}`}}
                     ref="curtainRight"
                     onTouchStart={(e) => this.curtainTouchStart('left',e)}
                     onTouchMove={(e) => this.curtainTouchMove('left',e)}
