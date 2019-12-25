@@ -24,7 +24,7 @@ class Curtain extends Component {
         this.refs.curtainRight.style.width = `${offsetWidth}px`;
     }
 
-    _changeAnim(selector,animName,clientWidth) {
+    _changeAnimNew(selector,animName,clientWidth) {
         let animation;
         if (animName === 'anim_close') {
             animation =`
@@ -45,7 +45,7 @@ class Curtain extends Component {
             name: 'move',
             animation,
             presets: {
-              duration: 5,
+              duration: 5000,
               easing: 'linear'
             }
         })
@@ -223,11 +223,11 @@ class Curtain extends Component {
 
 
 
-        /**this.refs.curtainLeft.style.transition = 'all 5s';
-        this.refs.curtainRight.style.transition = 'all 5s';*/
+        this.refs.curtainLeft.style.transition = 'all 5s';
+        this.refs.curtainRight.style.transition = 'all 5s';
 
-        this.refs.curtainLeft.classList.remove('curtain_close');
-        this.refs.curtainRight.classList.remove('curtain_close');
+        // this.refs.curtainLeft.classList.remove('curtain_close');
+        // this.refs.curtainRight.classList.remove('curtain_close');
 
         this.refs.curtainLeft.classList.remove('pause');
         this.refs.curtainRight.classList.remove('pause');
@@ -237,12 +237,16 @@ class Curtain extends Component {
 
         // this._changeAnim(this.refs.curtainRight,'anim_open',this.refs.curtainRight.clientWidth);
 
+        
+
+        // this.refs.curtainLeft.classList.add('curtain_open');
+        // this.refs.curtainRight.classList.add('curtain_open');
+        
+        this._changeAnimNew(this.refs.curtainLeft,'anim_open',this.refs.curtainLeft.clientWidth);
+        this._changeAnimNew(this.refs.curtainRight,'anim_open',this.refs.curtainLeft.clientWidth);
+
         this.refs.curtainLeft.classList.add('w_5');
         this.refs.curtainRight.classList.add('w_5');
-
-        this.refs.curtainLeft.classList.add('curtain_open');
-        this.refs.curtainRight.classList.add('curtain_open');
-        
 
         this.setDeviceCmd('100');
     }
@@ -258,6 +262,15 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.remove('w_5');
         this.refs.curtainRight.classList.remove('w_5');
 
+        this.refs.curtainLeft.classList.remove('w_50');
+        this.refs.curtainRight.classList.remove('w_50');
+
+        this.refs.curtainLeft.style.width = this.refs.curtainLeft.clientWidth + 'px';
+        this.refs.curtainRight.style.width = this.refs.curtainRight.clientWidth + 'px';
+
+        this.refs.curtainLeft.style.transition = 'all 0s';
+        this.refs.curtainRight.style.transition = 'all 0s';
+
 
 
         /**this.refs.curtainLeft.style.transition = 'none';
@@ -269,6 +282,10 @@ class Curtain extends Component {
 
         this.refs.curtainLeft.classList.add('pause');
         this.refs.curtainRight.classList.add('pause');
+
+        // animations.unregisterAnimation('move')
+        // this.refs.curtainLeft.style.animation = '';
+        // this.refs.curtainRight.style.animation = ''
 
         // this.setState({
         //     touch: {
@@ -286,11 +303,11 @@ class Curtain extends Component {
 
        
 
-        /**this.refs.curtainLeft.style.transition = 'all 5s';
-        this.refs.curtainRight.style.transition = 'all 5s';*/
+        this.refs.curtainLeft.style.transition = 'all 5s';
+        this.refs.curtainRight.style.transition = 'all 5s';
 
-        this.refs.curtainLeft.classList.remove('curtain_open');
-        this.refs.curtainRight.classList.remove('curtain_open');
+        // this.refs.curtainLeft.classList.remove('curtain_open');
+        // this.refs.curtainRight.classList.remove('curtain_open');
         // curtainStore.togglePlay();
 
         this.refs.curtainLeft.classList.remove('pause');
@@ -300,11 +317,16 @@ class Curtain extends Component {
 
         // this._changeAnim(this.refs.curtainRight,'anim_close',this.refs.curtainRight.clientWidth);
 
+        
+
+        // this.refs.curtainLeft.classList.add('curtain_close');
+        // this.refs.curtainRight.classList.add('curtain_close');
+
+        this._changeAnimNew(this.refs.curtainLeft,'anim_close',this.refs.curtainLeft.clientWidth);
+        this._changeAnimNew(this.refs.curtainRight,'anim_close',this.refs.curtainLeft.clientWidth);
+
         this.refs.curtainLeft.classList.add('w_50');
         this.refs.curtainRight.classList.add('w_50');
-
-        this.refs.curtainLeft.classList.add('curtain_close');
-        this.refs.curtainRight.classList.add('curtain_close');
 
         this.setDeviceCmd('0');
     }
@@ -322,7 +344,7 @@ class Curtain extends Component {
                 <div className="curtain-header"></div>
                 <div className="curtain-body" ref="curtainBody">
                     <div className={`curtain-left`} 
-                    style={{transition:`all 0s`,WebkitTransition: `all 0s`, width:`${widthPer}`}}
+                    style={{width:`${widthPer}`}}
                     ref="curtainLeft"
                     >
                         <div className="curtain-btn-leftWrapper"
@@ -334,7 +356,7 @@ class Curtain extends Component {
                         </div>
                     </div>
                     <div className={`curtain-right`}
-                    style={{transition:`all 0s`,WebkitTransition: `all 0s`,width:`${widthPer}`}}
+                    style={{width:`${widthPer}`}}
                     ref="curtainRight"
                     onTouchStart={(e) => this.curtainTouchStart('left',e)}
                     onTouchMove={(e) => this.curtainTouchMove('left',e)}
