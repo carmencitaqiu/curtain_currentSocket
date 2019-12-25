@@ -3,6 +3,7 @@ import { inject, observer } from "mobx-react";
 
 import "./Curtain.less"
 import curtainStore from "../../store/curtainStore";
+import animations from 'create-keyframe-animation'
 
 @inject("curtainStore","deviceStore")
 @observer
@@ -23,6 +24,34 @@ class Curtain extends Component {
         this.refs.curtainRight.style.width = `${offsetWidth}px`;
     }
 
+    _changeAnim(selector,animName,clientWidth) {
+        let animation;
+        if (animName === 'anim_close') {
+            animation =`
+               0%{
+                   width: ${clientWidth}px
+               }
+               100% { width: 50% }
+            `;
+        } else {
+                animation =`{
+                0%{
+                    width: ${clientWidth}px
+                }
+                100% { width: 5% }
+                `;
+        }
+        animations.registerAnimation({
+            name: 'move',
+            animation,
+            presets: {
+              duration: 5,
+              easing: 'linear'
+            }
+        })
+        animations.runAnimation(selector, 'move',function() {});    
+    }
+
     /**
      * 
      * @param {*} selector DOM
@@ -30,16 +59,49 @@ class Curtain extends Component {
      * @param Number clientWidth
      */
     _changeAnim(selector, animName,clientWidth) {
+        selector.style.animation = '';
+        selector.style.webkitAnimation = '';
+
         let keyframes = this._findKeyframesRule(animName);
         // 删除已经存在的开始和结束帧
-        keyframes.deleteRule("from");
-        keyframes.deleteRule("to");
+        keyframes.deleteRule("0%");
+        keyframes.deleteRule("100%");
 
-        keyframes.appendRule("from { width:"+ clientWidth + "px !important;}");
 
-        keyframes.appendRule("to { width: 100% }");
-        // 重新指定动画名字使之生效
+        
+        // // 重新指定动画名字使之生效
         // selector.style.webkitAnimationName = animName;
+        // selector.style.animationName = animName;
+
+        // const ballRunKeyframes = this._getkeyframes(animName);
+        // // deleteRule方法用来从当前样式表对象中删除指定的样式规则
+        // ballRunKeyframes.styleSheet.deleteRule(animation.index);
+
+        // //重新定义ball从定位在(20,30)的位置运动到(400,500) 的位置
+        let runkeyframes;
+        if (animName === 'anim_close') {
+             runkeyframes =` @keyframes ball-run{
+                0%{
+                    width: ${clientWidth}px
+                }
+                100% { width: 50% }
+            }`;
+        } else {
+             runkeyframes =` @keyframes ball-run{
+                0%{
+                    width: ${clientWidth}px
+                }
+                100% { width: 5% }
+            }`;
+        }
+        // // insertRule方法用来给当前样式表插入新的样式规则.
+        // ballRunKeyframes.styleSheet.insertRule(keyFrames, animation.index);
+        // // selector.setAttribute('style','animaition: ball-run1 5s;');
+        setTimeout(_=>{
+            // 1ms后纠正animation的名称
+            selector.setAttribute('style',`animaition: ball-run 5s 1 ease;`);
+            selector.setAttribute('style',`-webkit-animation: ball-run 5s 1 ease;`);
+        },1)
     }
 
     /**
@@ -50,7 +112,7 @@ class Curtain extends Component {
         let rule;
         let styleSheets = document.styleSheets;
         for (let i = 0; i < styleSheets.length; ++i) {
-            for (var x = 0; x < styleSheets[i].cssRules.length; ++x) {
+            for (let x = 0; x < styleSheets[i].cssRules.length; ++x) {
                 rule = styleSheets[i].cssRules[x];
                 if (rule.name == animName && (rule.type== CSSRule.KEYFRAMES_RULE || styleSheets[i].cssRules[j].type == CSSRule.WEBKIT_KEYFRAMES_RULE )){
                     return rule;
@@ -58,6 +120,21 @@ class Curtain extends Component {
             }
   
         }
+    }
+
+    _getkeyframes(animName) {
+        var animation = {};
+        // 获取所有的style
+        var ss = document.styleSheets;
+        for (var i = 0; i < ss.length; ++i) {
+        const item = ss[i];
+        if (item.cssRules[0] && item.cssRules[0].name && item.cssRules[0].name === animName) {
+            animation.cssRule = item.cssRules[0];
+            animation.styleSheet = ss[i];
+            animation.index = 0;
+        }
+        }
+        return animation;
     }
 
     setHalfCurtainOffset(percent) {
@@ -144,8 +221,10 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.remove('w_50');
         this.refs.curtainRight.classList.remove('w_50');
 
-        this.refs.curtainLeft.classList.add('w_5');
-        this.refs.curtainRight.classList.add('w_5');
+
+
+        /**this.refs.curtainLeft.style.transition = 'all 5s';
+        this.refs.curtainRight.style.transition = 'all 5s';*/
 
         this.refs.curtainLeft.classList.remove('curtain_close');
         this.refs.curtainRight.classList.remove('curtain_close');
@@ -153,11 +232,18 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.remove('pause');
         this.refs.curtainRight.classList.remove('pause');
 
+
+        // this._changeAnim(this.refs.curtainLeft,'anim_open',this.refs.curtainLeft.clientWidth);
+
+        // this._changeAnim(this.refs.curtainRight,'anim_open',this.refs.curtainRight.clientWidth);
+
+        this.refs.curtainLeft.classList.add('w_5');
+        this.refs.curtainRight.classList.add('w_5');
+
         this.refs.curtainLeft.classList.add('curtain_open');
         this.refs.curtainRight.classList.add('curtain_open');
+        
 
-        // this.refs.curtainLeft.style.webkitAnimationName = 'anim_open';
-        // this.refs.curtainRight.style.webkitAnimationName = 'anim_open';
         this.setDeviceCmd('100');
     }
 
@@ -172,6 +258,15 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.remove('w_5');
         this.refs.curtainRight.classList.remove('w_5');
 
+
+
+        /**this.refs.curtainLeft.style.transition = 'none';
+        this.refs.curtainRight.style.transition = 'none';*/
+
+        // this.refs.curtainLeft.style.width = this.refs.curtainLeft.clientWidth + 'px';
+        // this.refs.curtainRight.style.width =  this.refs.curtainRight.clientWidth + 'px';
+        
+
         this.refs.curtainLeft.classList.add('pause');
         this.refs.curtainRight.classList.add('pause');
 
@@ -180,7 +275,6 @@ class Curtain extends Component {
         //         startX:this.refs.curtainLeft.clientWidth
         //     }
         // });
-        // this._changeAnim(this.refs.curtainLeft,'anim_close',this.refs.curtainLeft.clientWidth);
 
         this.setDeviceCmd('999');
     }
@@ -190,8 +284,10 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.remove('w_5');
         this.refs.curtainRight.classList.remove('w_5');
 
-        this.refs.curtainLeft.classList.add('w_50');
-        this.refs.curtainRight.classList.add('w_50');
+       
+
+        /**this.refs.curtainLeft.style.transition = 'all 5s';
+        this.refs.curtainRight.style.transition = 'all 5s';*/
 
         this.refs.curtainLeft.classList.remove('curtain_open');
         this.refs.curtainRight.classList.remove('curtain_open');
@@ -200,11 +296,15 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.remove('pause');
         this.refs.curtainRight.classList.remove('pause');
 
+        // this._changeAnim(this.refs.curtainLeft,'anim_close',this.refs.curtainLeft.clientWidth);
+
+        // this._changeAnim(this.refs.curtainRight,'anim_close',this.refs.curtainRight.clientWidth);
+
+        this.refs.curtainLeft.classList.add('w_50');
+        this.refs.curtainRight.classList.add('w_50');
+
         this.refs.curtainLeft.classList.add('curtain_close');
         this.refs.curtainRight.classList.add('curtain_close');
-
-        // this.refs.curtainLeft.style.webkitAnimation = 'anim_close 10s';
-        // this.refs.curtainRight.style.webkitAnimation = 'anim_close 10s';
 
         this.setDeviceCmd('0');
     }

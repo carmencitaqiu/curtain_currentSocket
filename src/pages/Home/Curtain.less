@@ -21,16 +21,16 @@
         height:100%;
         -webkit-transform: translate3d(0,0,0);
         transform: translate3d(0,0,0);
-        transition: all 5s;
-        -webkit-transition: all 5s;
+        // transition: all 5s;
+        // -webkit-transition: all 5s;
         // animation:curtain_close 10s;
         // animation: curtain_open 10s;
       }
       .w_5 {
-        width: 5%;
+        width: 5% !important;
       }
       .w_50 {
-        width: 50%;
+        width: 50% !important;
       }
       .curtain-btn {
         width: 40px;
@@ -97,11 +97,11 @@
   }
 
   @keyframes anim_close {
-    from {width: 5%;}
-    to {width: 50%}
+    0% {width: 5%;}
+    100% {width: 50%;}
   }
 
   @keyframes anim_open {
-    from {width: 50%}
-    to {width: 5%;}
+    0% {width: 50%}
+    100% {width: 5%;}
   }
