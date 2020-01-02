@@ -35,24 +35,24 @@ class Inner extends Component {
               <i className="Setting-list-right" />
             </li>
           </ul>
-          <ul className="Setting-list">
+          {/* <ul className="Setting-list">
             <li className="Setting-list-item" onClick={this.goRoomChecked}>
               <span>智能</span>
               <i className="Setting-list-right" />
             </li>
-          </ul>
+          </ul> */}
         </div>
 
         <Head>其他设置</Head>
 
         <div className="inner">
-          <ul className="Setting-list">
+          {/* <ul className="Setting-list">
             <li className="Setting-list-item">
               <span>检查固件升级</span>
               <span className="Setting-list-right-txt">已为最新版本</span>
               <i className="Setting-list-right" />
             </li>
-          </ul>
+          </ul> */}
           <ul className="Setting-list">
             <li className="Setting-list-item">
               <span>常见问题</span>
