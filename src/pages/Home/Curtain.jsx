@@ -14,7 +14,8 @@ class Curtain extends Component {
             touch : {
                 startX:null
             },
-            percent:null
+            percent:null,
+            left: null
         };
     }
     _offset(offsetWidth) {
@@ -187,12 +188,21 @@ class Curtain extends Component {
             },
             left:this.refs.curtainLeft.clientWidth
         });
-
+       
     }
     curtainTouchMove = (leftOfRight,e) => {
-        const halfWidth = this.refs.curtainBody.clientWidth * 0.49;
-        const deltaX = e.touches[0].pageX - this.state.touch.startX;
+        // 固定值，为窗帘一半的宽度
+        const halfWidth = this.refs.curtainBody.clientWidth * 0.5;
+        // 获取startX与鼠标当前值的差值
+        let deltaX;
+        if (leftOfRight === 'left') {
+            deltaX = e.touches[0].pageX - this.state.touch.startX;
+        } else {
+            deltaX =this.state.touch.startX - e.touches[0].pageX;
+        }
+        // 得到offsetWidth
         const offsetWidth = Math.min(halfWidth, Math.max(0, this.state.left + deltaX))
+        // 百分比
         const percent = offsetWidth / halfWidth;
         if (percent < 0) {
             return;
@@ -208,9 +218,6 @@ class Curtain extends Component {
     }
 
     curtainTouchEnd = (leftOfRight,e) => {
-        // const halfWidth = this.refs.curtainBody.clientWidth * 0.49;
-        // const deltaX = e.touches[0].pageX - this.state.touch.startX;
-        // const percent = deltaX / halfWidth;
         console.log('**********touch end:state:'+ this.state.percent * 100);
         this.setDeviceCmd(parseInt((1-this.state.percent) * 100).toString());
     }
@@ -358,9 +365,9 @@ class Curtain extends Component {
                     <div className={`curtain-right`}
                     style={{width:`${widthPer}`}}
                     ref="curtainRight"
-                    onTouchStart={(e) => this.curtainTouchStart('left',e)}
-                    onTouchMove={(e) => this.curtainTouchMove('left',e)}
-                    onTouchEnd={(e) => this.curtainTouchEnd('left',e)}
+                    onTouchStart={(e) => this.curtainTouchStart('right',e)}
+                    onTouchMove={(e) => this.curtainTouchMove('right',e)}
+                    onTouchEnd={(e) => this.curtainTouchEnd('right',e)}
                     >
                         
                         <div className="curtain-btn-rightWrapper">
