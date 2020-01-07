@@ -2,7 +2,7 @@ import { observable, action, computed } from "mobx";
 import BaseStore from "./baseStore/BaseStore";
 import configStore from "./baseStore/configStore";
 import nativeStore from "./nativeStore";
-import hangerStore from "./hangerStore";
+import logMapStore from "./logMapStore";
 
 // const doNull = () => {};
 
@@ -35,22 +35,8 @@ class DeviceStore extends BaseStore {
   @observable curSerialId = "0"; // 当前所选择的线路id，初始获取设备详情时，默认取第一个线路id
   @observable subDevList = []; // 子设备列表，设备为网关时包含
   @observable roomList = []; // 房间列表，通过getRoomList方法获取
+  @observable resourceList = []; // 设备资源列表：这里主要是定时器和倒计时控制
 
-  @observable timeInfo = {
-    isShow: false, // 倒计时是否正在进行，true倒计时开启状态，消失为停止字样
-    hh: "0",
-    mm: "0"
-  };
-
-  isCountDown = true; // 是否支持倒计时
-  isSchedule = true; // 是否支持定时
-  SCActionList = [
-    // 定时器和倒计时命令指令列表
-    '[{"cmdName":"SET_POWER","cmdParam":"0"}]',
-    '[{"cmdName":"SET_POWER","cmdParam":"1"}]'
-  ];
-
-  resourceList = []; // 设备资源列表
   warnList = []; // 设备告警信息列表
   functionList = []; // 设备功能列表
   houseId = ""; // 房子唯一标识（同一用户下）
@@ -58,6 +44,14 @@ class DeviceStore extends BaseStore {
   houseType = ""; //房子类型，好像只有值"0"
   roomId = ""; // 房间唯一标识（同一用户下）
   // NOTE  默认房间id，如果线路中的属性roomId为空时，取这个为默认值
+
+  isCountDown = true; // 是否支持倒计时
+  isSchedule = true; // 是否支持定时
+  SCActionList = [
+    // 定时器和倒计时命令指令列表
+    [{ cmdName: "SET_POWER", cmdParam: "0" }],
+    [{ cmdName: "SET_POWER", cmdParam: "1" }]
+  ];
 
   deviceType = ""; // 0：普通设备，1：网关设备，2：子设备，3：附属普通设备，4：附属子设备，5：他人共享的设备
   deviceTypes = [
@@ -91,7 +85,6 @@ class DeviceStore extends BaseStore {
     });
     return maps;
   }
-
   /**
    * @property currentStatus [当前线路的状态列表映射]
    * @readonly
@@ -103,7 +96,6 @@ class DeviceStore extends BaseStore {
     const { statusMap, curSerialId } = this;
     return statusMap[curSerialId];
   }
-
   /**
    * @property statusMap [当前所有线路的状态列表映射]
    * @readonly
@@ -163,6 +155,66 @@ class DeviceStore extends BaseStore {
   }
 
   /**
+   * @property scheduleList [定时器列表]
+   * @readonly
+   * @note [根据设备详情中的资源列表读取到的定时器列表]
+   */
+  @computed get scheduleList() {
+    const { resourceList, isSchedule, curSerialId } = this;
+    let list = [];
+    if (!isSchedule) {
+      configStore.infoMsg("~~~", "该设备不支持定时器功能");
+      // NOTE 暂时先不管支不支持定时，都统一获取一遍定时列表
+      // return list;
+    }
+
+    // eslint-disable-next-line eqeqeq
+    const rList = resourceList.filter(d => d.serialId == curSerialId);
+    // 拉取同线路的定时器列表为空时
+    if (rList.slice().length === 0) return list;
+    const sList = rList[0].resourceSerial.filter(
+      d => d.resourceName === "SCHEDULE"
+    );
+    // 拉取定时器列表为空时
+    if (sList.slice().length === 0) return list;
+    list = sList[0].resourceInfo.map(d => {
+      let {
+        SCHEDULE_ID,
+        SCHEDULE_NAME,
+        TIME,
+        REPEAT_CYCLE,
+        ACTIVE,
+        ACTION
+      } = d,
+        t = new Date(TIME * 1000 || 0),
+        power = "1";
+
+      try {
+        let v = typeof ACTION === "string" ? JSON.parse(ACTION) : ACTION;
+        v.forEach(({ cmdName, cmdParam }) => {
+          if (cmdName === "SET_POWER") {
+            power = cmdParam;
+          }
+        });
+      } catch (e) { }
+
+      return {
+        id: SCHEDULE_ID,
+        name: SCHEDULE_NAME,
+        hh: t.getHours(),
+        mm: t.getMinutes(),
+        days:
+          REPEAT_CYCLE === "0" || REPEAT_CYCLE === "-1"
+            ? []
+            : REPEAT_CYCLE.split(",").map(d => +d),
+        active: ACTIVE === "1",
+        power
+      };
+    });
+    return list;
+  }
+
+  /**
    * @property countDownList [倒计时]
    * @readonly
    * @note [根据设备详情中的资源列表读取到的倒计时]
@@ -186,21 +238,21 @@ class DeviceStore extends BaseStore {
     // 拉取定时器列表为空时
     if (cList.slice().length === 0) return list;
     let {
-        COUNTDOWN_ID,
-        COUNTDOWN_NAME,
-        HOUR,
-        MINUTE,
-        ACTION
-      } = cList[0].resourceInfo[0],
+      COUNTDOWN_ID,
+      COUNTDOWN_NAME,
+      HOUR,
+      MINUTE,
+      ACTION
+    } = cList[0].resourceInfo[0],
       power = "1";
     try {
-      let v = JSON.parse(ACTION);
+      let v = typeof ACTION === "string" ? JSON.parse(ACTION) : ACTION;
       v.forEach(({ cmdName, cmdParam }) => {
         if (cmdName === "SET_POWER") {
           power = cmdParam;
         }
       });
-    } catch (e) {}
+    } catch (e) { }
 
     list = {
       id: COUNTDOWN_ID,
@@ -218,25 +270,11 @@ class DeviceStore extends BaseStore {
    * @note [主要判断依据：设备详情是否获取成功]
    */
   @computed get isControl() {
-    return this.deviceChangeed !== 0;
-  }
-
-  @observable isShowDeviceName = false; //控制是否显示设置设备名称
-  /**
-   * @method 显示弹窗
-   */
-  showDeviceName() {
-    this.setState({
-      isShowDeviceName: !!1
-    });
-  }
-  /**
-   * @method 关闭弹窗
-   */
-  hideDeviceName() {
-    this.setState({
-      isShowDeviceName: !!0
-    });
+    const isC = this.deviceChangeed !== 0;
+    if (!isC) {
+      this.toastString("请等待获取设备信息");
+    }
+    return isC;
   }
 
   /**
@@ -249,9 +287,7 @@ class DeviceStore extends BaseStore {
     // NOTE 阻止设备详情未读取时设置该值
     if (!this.isControl) return;
 
-    this.setState({
-      curSerialId
-    });
+    this.setState({ curSerialId });
   }
 
   /**
@@ -271,12 +307,7 @@ class DeviceStore extends BaseStore {
         deviceAttributes: [
           {
             serialId: curSerialId,
-            attributes: [
-              {
-                attribName: "name",
-                attribValue: deviceName
-              }
-            ]
+            attributes: [{ attribName: "name", attribValue: deviceName }]
           }
         ]
       });
@@ -300,12 +331,7 @@ class DeviceStore extends BaseStore {
         deviceAttributes: [
           {
             serialId: curSerialId,
-            attributes: [
-              {
-                attribName: "roomId",
-                attribValue: roomId
-              }
-            ]
+            attributes: [{ attribName: "roomId", attribValue: roomId }]
           }
         ]
       });
@@ -333,22 +359,37 @@ class DeviceStore extends BaseStore {
           maps[statusName] = curStatusValue;
         });
 
-        this.deviceStatus
-          .filter(d => d.serialId === serialId)[0]
-          .deviceStatusSerial.forEach(d => {
-            const { statusName } = d;
-            if (statusName in maps) {
-              d.curStatusValue = maps[statusName];
-            }
-          });
+        const rstDeviceStatusSerial = this.deviceStatus.filter(
+          // eslint-disable-next-line eqeqeq
+          d => d.serialId == serialId
+        )[0].deviceStatusSerial;
+        rstDeviceStatusSerial.forEach(d => {
+          const { statusName } = d;
+          if (statusName in maps) {
+            d.curStatusValue = maps[statusName];
+            maps[statusName] = true;
+          }
+        });
+        for (let i in maps) {
+          // 如果存在不在设备详情中的状态
+          if (maps[i] !== true) {
+            rstDeviceStatusSerial.push({
+              statusName: i,
+              curStatusValue: maps[i]
+            });
+          }
+        }
       });
 
       // NOTE 测试回调
-      configStore.infoMsg("~~~", JSON.stringify(this.deviceStatus));
+      configStore.infoMsg(
+        "~~~",
+        JSON.stringify(this.currentStatus)
+          .split(",")
+          .join(",\n")
+      );
 
-      this.setState({
-        deviceChangeed: this.deviceChangeed + 1
-      });
+      this.setState({ deviceChangeed: this.deviceChangeed + 1 });
     }
   }
 
@@ -360,7 +401,7 @@ class DeviceStore extends BaseStore {
 
     // NOTE 如果是调试模式，这里会给一款默认调试设备
     if (configStore.debug) {
-      deviceId = deviceId || "D1D0010001085212052019122000013217";
+      deviceId = deviceId || "D1D0010001085212052020010600009685";
     }
     this.deviceId = deviceId;
 
@@ -388,25 +429,24 @@ class DeviceStore extends BaseStore {
         functionList,
         houseId,
         roomId,
-
         isCountDown,
-
+        isSchedule,
         parentDevId
       } = data.device;
       this.deviceName = deviceName || ""; // 设备名称（默认为设备商品名称，当商品名称为空时，默认为设备型号），默认设备名称，如果线路中的属性name为空时，取这个为默认值
-
-      this.isCountDown = isCountDown === "1"; // 是否支持倒计时 1支持 0 不支持
-
       this.platform = platform || ""; // 归属平台ID
       this.manufacturer = manufacturer || ""; // 设备厂商ID
       this.brand = brand || ""; // 品牌ID
       this.model = model || ""; // 型号ID
       this.deviceOnLine = deviceOnLine || ""; // 设备状态 - 0：离线，1：在线
-      this.resourceList = resourceList || []; // 设备资源列表
+
       this.warnList = warnList || []; // 设备告警信息列表
       this.functionList = functionList || []; // 设备功能列表
       this.houseId = houseId || ""; // 房子唯一标识（同一用户下）
       this.roomId = roomId || ""; // 房间唯一标识（同一用户下） 默认房间id，如果线路中的属性roomId为空时，取这个为默认值
+      this.isCountDown = isCountDown === "1"; // 是否支持倒计时 1支持 0 不支持
+      this.isSchedule = isSchedule === "1"; // 是否支持定时 1支持 0 不支持
+
       this.deviceType = deviceType || ""; // 0：普通设备，1：网关设备，2：子设备，3：附属普通设备，4：附属子设备，5：他人共享的设备
       this.parentDevId = parentDevId || ""; // 上级设备标识，此处填网关/属主设备的ID
 
@@ -426,15 +466,17 @@ class DeviceStore extends BaseStore {
             });
             return d;
           }) || [], // 设备属性列表
+        resourceList: resourceList || [], // 设备资源列表
         subDevList: subDevList || [], // 子设备列表，设备为网关时包含
-        deviceChangeed: this.deviceChangeed + 1,
-        deviceOnLine:deviceOnLine
+        deviceChangeed: this.deviceChangeed + 1
       });
 
       // NOTE  获取房间列表 - 延时500ms
       setTimeout(() => {
         this.getRoomList();
-        this.getTimeInfo();
+        // setTimeout(() => {
+        //   this.getAPPLoglist(); // 获取设备告警信息/状态信息列表
+        // }, 700);
       }, 500);
     });
   }
@@ -473,25 +515,31 @@ class DeviceStore extends BaseStore {
       });
     });
   }
-
+  //.........................删除设备
+  //是否显示删除设备按钮
+  @observable isShowDelDeviceModal = false;
+  //显示删除设备按钮
+  showDelDeviceModal() {
+    this.setState({ isShowDelDeviceModal: true });
+  }
+  //隐藏删除设备按钮
+  hideDelDeviceModal() {
+    this.setState({ isShowDelDeviceModal: false });
+  }
   /**
-   * @method 获取倒计时信息
-   * @requires 必须先获取设备详情
-   */
-  getTimeInfo() {
-    // NOTE 阻止设备详情未读取时获取该值
-    if (!this.isControl) return;
-
-    nativeStore.callAppMethod("jsGetTimeInfo", "" + this.deviceId, rst => {
-      //设置倒计时信息
-      this.setState({
-        timeInfo: rst
-      });
-      //如果当前倒计时正在进行，则H5本地也同步开始进行倒计时，但是误差会有1分钟内的时间
-      if (rst.isShow) {
-        hangerStore.openOrClose();
-      }
-    });
+     * @property [解除设备绑定]
+     * @param {string} deviceId
+     * @time 2019-12-12
+     */
+  @action
+  unbindDevice(deviceId, _success) {
+    if (!deviceId) return;
+    const success = _success
+      ? _success
+      : () => {
+        this.toastString("设置成功");
+      };
+    nativeStore.callAppMethod("jsUnbindDevice", deviceId, success);
   }
   /**
    * @method 控制设备统一方法
@@ -520,26 +568,29 @@ class DeviceStore extends BaseStore {
     const success = _success
       ? _success
       : () => {
-          const { serialId, actionCmdSerial } = data;
-          const maps = {};
-          actionCmdSerial.forEach(({ cmdName, cmdParam }) => {
-            maps[cmdName.split("_")[1]] = cmdParam;
+        const { serialId, actionCmdSerial } = data;
+        const maps = {};
+        actionCmdSerial.forEach(({ cmdName, cmdParam }) => {
+          maps[
+            cmdName
+              .split("_")
+              .slice(1)
+              .join("_")
+          ] = cmdParam;
+        });
+        this.deviceStatus
+          // eslint-disable-next-line eqeqeq
+          .filter(d => d.serialId == serialId)[0]
+          .deviceStatusSerial.forEach(d => {
+            const { statusName } = d;
+            if (statusName in maps) {
+              d.curStatusValue = maps[statusName];
+            }
           });
-          this.deviceStatus
-            // eslint-disable-next-line eqeqeq
-            .filter(d => d.serialId == serialId)[0]
-            .deviceStatusSerial.forEach(d => {
-              const { statusName } = d;
-              if (statusName in maps) {
-                d.curStatusValue = maps[statusName];
-              }
-            });
-          //强制刷新
-          this.setState({
-            deviceChangeed: this.deviceChangeed + 1
-          });
-
-        };
+        //强制刷新
+        this.setState({ deviceChangeed: this.deviceChangeed + 1 });
+        this.toastString("设置成功");
+      };
     nativeStore.callAppMethod("jsControlDevice", data, success);
   }
 
@@ -573,54 +624,54 @@ class DeviceStore extends BaseStore {
     const success = _success
       ? _success
       : () => {
-          data.deviceAttributes.forEach(({ serialId, attributes }) => {
-            let maps = {};
-            attributes.forEach(({ attribName, attribValue }) => {
-              maps[attribName] = attribValue;
+        data.deviceAttributes.forEach(({ serialId, attributes }) => {
+          let maps = {};
+          attributes.forEach(({ attribName, attribValue }) => {
+            maps[attribName] = attribValue;
+          });
+          this.deviceAttributes
+            // eslint-disable-next-line eqeqeq
+            .filter(d => d.serialId == serialId)[0]
+            .attributes.forEach(d => {
+              const { attribName } = d;
+              if (attribName in maps) {
+                d.attribValue = maps[attribName];
+              }
             });
-            this.deviceAttributes
-              // eslint-disable-next-line eqeqeq
-              .filter(d => d.serialId == serialId)[0]
-              .attributes.forEach(d => {
-                const { attribName } = d;
-                if (attribName in maps) {
-                  d.attribValue = maps[attribName];
-                }
-              });
-          });
+        });
 
-          //强制刷新
-          this.setState({
-            deviceChangeed: this.deviceChangeed + 1
-          });
-          this.toastString("设置成功");
-        };
+        //强制刷新
+        this.setState({ deviceChangeed: this.deviceChangeed + 1 });
+        this.toastString("设置成功");
+      };
     nativeStore.callAppMethod("jsSetDeviceProperty", data, success);
   }
 
   /**
-   * @method 设置设备资源（倒计时资源）
+   * @method 设置设备资源（定时器资源与倒计时资源）
    * @param {String} resourceName [资源名]
    * @param {Array<Object>|Object} resourceInfo [资源信息]
    * @param {Function} success [必填]
    * @example
-   * this.saveDeviceResource("COUNTDOWN", [
+   * this.saveDeviceResource("SCHEDULE", [
    *   {
    *     MODE: "1",
-   *     COUNTDOWN_ID: "",
+   *     SCHEDULE_ID: "",
+   *     SCHEDULE_NAME: "22:00 关",
    *     TIME: "1567778400",
    *     MREPEAT_CYCLE: "",
+   *     REPEAT_CYCLE: "1,2,3,4,5",
    *     ACTIVE: "1",
    *     ACTION: '[{"cmdName":"SET_POWER","cmdParam":"0"}]'
    *   },
    *   {
    *     MODE: "1",
-   *     COUNTDOWN_ID: "",
+   *     SCHEDULE_ID: "",
    *     ...
    *   }
    * ]);
    */
-  saveDeviceResource(resourceName, resourceInfo, _success = () => {}) {
+  saveDeviceResource(resourceName, resourceInfo, _success = () => { }) {
     // NOTE 阻止设备详情未读取时设置该值
     if (!this.isControl) return;
 
@@ -669,7 +720,93 @@ class DeviceStore extends BaseStore {
     nativeStore.callAppMethod("jsSaveDeviceResource", data, success);
   }
 
-  // NOTE 倒计时增删改方法
+  // NOTE 定时器增删改方法
+  saveSchedule(resourceInfo, success) {
+    this.saveDeviceResource("SCHEDULE", resourceInfo, success);
+  }
+  /**
+   * @method addSchedule
+   * @description [添加定时器信息]
+   * @param {Array<Object>} dataList
+   */
+  addSchedule(dataList, success) {
+    const list = dataList.length ? dataList : [dataList];
+    this.saveSchedule(
+      list.map(d => {
+        const { hh, mm, days, power } = d;
+        const t =
+          (hh < 10 ? "0" + hh : hh) +
+          ":" +
+          (mm < 10 ? "0" + mm : mm) +
+          " " +
+          (power === "1" ? "开" : "关");
+        const day = new Date().setHours(hh, mm, 0, 0);
+        const a = this.SCActionList[power] || this.SCActionList[0];
+        return {
+          MODE: "1",
+          SCHEDULE_ID: "",
+          SCHEDULE_NAME: t,
+          TIME: day / 1000 + "",
+          MREPEAT_CYCLE: "",
+          REPEAT_CYCLE: days.join(",") || "0",
+          ACTIVE: "1",
+          ACTION: a
+        };
+      }),
+      success
+    );
+  }
+  /**
+   * @method editSchedule
+   * @description [修改定时器信息]
+   * @param {Array<Object>} dataList
+   */
+  editSchedule(dataList, success) {
+    const list = dataList.length ? dataList : [dataList];
+    this.saveSchedule(
+      list.map(d => {
+        const { id, hh, mm, days, active, power } = d;
+        const t =
+          (hh < 10 ? "0" + hh : hh) +
+          ":" +
+          (mm < 10 ? "0" + mm : mm) +
+          " " +
+          (power === "1" ? "开" : "关");
+        const day = new Date().setHours(hh, mm, 0, 0);
+        const a = this.SCActionList[power] || this.SCActionList[0];
+        return {
+          MODE: "2",
+          SCHEDULE_ID: id,
+          SCHEDULE_NAME: t,
+          TIME: day / 1000 + "",
+          MREPEAT_CYCLE: "",
+          REPEAT_CYCLE: days.join(",") || (active ? "0" : "-1"),
+          ACTIVE: active ? "1" : "0",
+          ACTION: a
+        };
+      }),
+      success
+    );
+  }
+  /**
+   * @method deleteSchedule
+   * @description [删除定时器信息]
+   * @param {Array<Object>} dataList
+   */
+  deleteSchedule(dataList, success) {
+    const list = dataList.length ? dataList : [dataList];
+    this.saveSchedule(
+      list.map(d => {
+        return {
+          MODE: "3",
+          SCHEDULE_ID: d.id
+        };
+      }),
+      success
+    );
+  }
+
+  // NOTE 定时器增删改方法
   saveCountDown(resourceInfo, success) {
     this.saveDeviceResource("COUNTDOWN", resourceInfo, success);
   }
@@ -724,11 +861,223 @@ class DeviceStore extends BaseStore {
   }
 
   /**
+   * @method getAPPLoglist
+   * @description [告警信息/设备状态信息列表获取]
+   * @param {Array<Object>} dataList
+   */
+  nowYear = new Date().getFullYear();
+  checkNum(d) {
+    return d < 10 ? "0" + d : d;
+  }
+  getDate(time) {
+    const _t = parseInt(time, 10);
+    let now = new Date();
+    if (!isNaN(_t)) now = new Date(_t * 1000);
+    const y = now.getFullYear(),
+      m = now.getMonth() + 1,
+      d = now.getDate(),
+      hh = now.getHours(),
+      mm = now.getMinutes(),
+      ss = now.getSeconds(),
+      t = (this.nowYear === y ? "" : y + "年") + m + "月" + d + "日",
+      tt = [this.checkNum(hh), this.checkNum(mm), this.checkNum(ss)].join(":"),
+      sort = y * 10000 + m * 100 + d,
+      sort2 = hh * 1000 + mm * 100 + ss;
+    return {
+      sort, // 排序 按年月日
+      sort2, // 排序 按时分秒
+      t, // 实际显示年月日
+      tt, // 实际显示时分秒
+      y,
+      m,
+      d,
+      hh,
+      mm,
+      ss
+    };
+  }
+  @observable nowAlarmLogList = [
+    // {
+    //   eventInfo: [
+    //     {
+    //       ADD_NOTE: "警告信息1",
+    //       TIME: "1566872789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息2",
+    //       TIME: "1566873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息3",
+    //       TIME: "1567873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息4",
+    //       TIME: "1568873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息5",
+    //       TIME: "1568873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息3",
+    //       TIME: "1567873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息4",
+    //       TIME: "1568873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息3",
+    //       TIME: "1567873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息4",
+    //       TIME: "1568873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息3",
+    //       TIME: "1567873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息4",
+    //       TIME: "1568873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息3",
+    //       TIME: "1567873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息4",
+    //       TIME: "1568873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息3",
+    //       TIME: "1567873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息4",
+    //       TIME: "1568873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息3",
+    //       TIME: "1567873789"
+    //     },
+    //     {
+    //       ADD_NOTE: "警告信息4",
+    //       TIME: "1568873789"
+    //     },
+    //   ],
+    //   eventName: "DEVICE_STATUS",
+    //   total: 2
+    // }
+  ]; // 设备告警信息列表
+  @computed get alarmLogMaps() {
+    let maps = {};
+    this.nowAlarmLogList.forEach(d => {
+      const { eventInfo, total } = d; // total为总数，eventInfo可能为空
+      if (eventInfo) {
+        eventInfo.forEach(({ ADD_NOTE, TIME }) => {
+          const t = this.getDate(TIME);
+          const obj = {
+            ...t,
+            info: ADD_NOTE
+          };
+          if (maps[t.sort]) {
+            maps[t.sort].push(obj);
+          } else {
+            maps[t.sort] = [obj];
+          }
+        });
+      }
+    });
+    return maps;
+  }
+  @observable nowStatusLogList = [
+    // {
+    //   eventInfo: [
+    //     {
+    //       STATUS_NAME: "HUMIDITY",
+    //       TIME: "1566871789",
+    //       STATUS_VALUE: "26"
+    //     },
+    //     {
+    //       STATUS_NAME: "TEMPERATURE",
+    //       TIME: "1566871789",
+    //       STATUS_VALUE: "22"
+    //     }
+    //   ],
+    //   eventName: "DEVICE_STATUS",
+    //   total: 2
+    // }
+  ]; // 设备状态
+  @computed get statusLogMaps() {
+    let maps = {};
+    this.nowStatusLogList.forEach(d => {
+      const { eventInfo, total } = d; // total为总数，eventInfo可能为空
+      if (eventInfo) {
+        eventInfo.forEach(({ STATUS_NAME, STATUS_VALUE, TIME }) => {
+          const t = this.getDate(TIME);
+          const { name, unit = "" } = logMapStore[STATUS_NAME] || {};
+          const obj = {
+            ...t,
+            info: name ? name + "：" + STATUS_VALUE + unit : "未知状态"
+          };
+          if (maps[t.sort]) {
+            maps[t.sort].push(obj);
+          } else {
+            maps[t.sort] = [obj];
+          }
+        });
+      }
+    });
+    return maps;
+  }
+  @observable isGetAPPLogList = false; // 是否已获取完告警信息列表
+  @computed get nowAPPLogList() {
+    const { alarmLogMaps, statusLogMaps } = this;
+    const keys = Array.from(
+      new Set([...Object.keys(alarmLogMaps), ...Object.keys(statusLogMaps)])
+    ).sort((a, b) => +b - +a);
+    let lists = [];
+    keys.forEach(d => {
+      let list = [];
+      if (alarmLogMaps[d]) list = list.concat(alarmLogMaps[d]);
+      if (statusLogMaps[d]) list = list.concat(statusLogMaps[d]);
+      list.sort((a, b) => b.sort2 - a.sort2);
+      lists.push(list);
+    });
+    return lists;
+  }
+  getAPPLoglist(eventName = "DEVICE_ALARM", page = 1) {
+    const data = {
+      eventName,
+      limit: 30,
+      metaId: this.deviceId,
+      metaType: "2",
+      page,
+      iot_account: ""
+    };
+    nativeStore.callAppMethodForLog("jsGetAPPLoglist", data, rst => {
+      this.setState({
+        [eventName === "DEVICE_ALARM" ? "nowAlarmLogList" : "nowStatusLogList"]:
+          rst.metaInfoList || [],
+        isGetAPPLogList: true
+      });
+    });
+
+    if (eventName === "DEVICE_ALARM") {
+      setTimeout(() => {
+        this.getAPPLoglist("DEVICE_STATUS");
+      }, 800);
+    }
+  }
+
+  /**
    * @method 获取partnerToken
    * @param {String} partnerId
    * @param {Function} success [必填]
    * @example
-   * partner_token
    * getPartnerTokenWithPartnerId("706aa632732d438fab2cbcc89656fef9",(rst)=>{
    *    // 访问智能家居平台的访问令牌（第三方token）
    *    const { partner_token } = rst;
@@ -799,21 +1148,9 @@ class DeviceStore extends BaseStore {
     const middle = maps[b];
     const right = maps[c];
     nativeStore.callAppMethod("jsSetNavigationStyle", [
-      {
-        type: "left",
-        isShow: left,
-        icon: ""
-      },
-      {
-        type: "middle",
-        isShow: middle,
-        icon: ""
-      },
-      {
-        type: "right",
-        isShow: right,
-        icon: ""
-      }
+      { type: "left", isShow: left, icon: "" },
+      { type: "middle", isShow: middle, icon: "" },
+      { type: "right", isShow: right, icon: "" }
     ]);
   }
 

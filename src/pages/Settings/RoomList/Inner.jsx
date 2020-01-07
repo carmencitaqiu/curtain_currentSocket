@@ -11,17 +11,19 @@ class Inner extends Component {
     const { roomList, curRoomId } = deviceStore;
     return (
       <div className="inner">
-        <ul className="setting-list">
-          <li className='setting-title'>天小翼的家</li>
+        <ul className="Setting-list">
           {roomList.map((d, i) => {
             const { roomId, roomName } = d;
             return (
               <li
-                className={'setting-list-item' + (curRoomId === roomId ?' checked':'')}
+                className="Setting-list-item"
                 onClick={() => deviceStore.setRoomId(roomId)}
                 key={i}
               >
                 <span>{roomName}</span>
+                {curRoomId === roomId ? (
+                  <i className="Setting-list-selected" />
+                ) : null}
               </li>
             );
           })}

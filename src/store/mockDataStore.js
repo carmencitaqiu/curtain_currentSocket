@@ -137,6 +137,11 @@ class MockDataStore extends BaseStore {
               roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
               roomName: "玄关",
               roomType: "9"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomName: "储藏间",
+              roomType: "10"
             }
           ]
         }

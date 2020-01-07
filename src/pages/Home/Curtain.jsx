@@ -19,8 +19,11 @@ class Curtain extends Component {
         };
     }
     _offset(offsetWidth) {
-        this.refs.curtainLeft.style.transition = 'width 0s';
-        this.refs.curtainRight.style.transition = 'width 0s';
+        this.refs.curtainLeft.style.transition = 'all 0s';
+        this.refs.curtainRight.style.transition = 'all 0s';
+        this.refs.curtainLeft.style.webkitTransition = 'all 0s';
+        this.refs.curtainRight.style.webkitTransition = 'all 0s';
+
         this.refs.curtainLeft.style.width = `${offsetWidth}px`;
         this.refs.curtainRight.style.width = `${offsetWidth}px`;
     }
@@ -224,11 +227,12 @@ class Curtain extends Component {
 
     openCurtain = () => {
         // curtainStore.togglePlay();
-
+        
         this.refs.curtainLeft.classList.remove('w_50');
         this.refs.curtainRight.classList.remove('w_50');
 
-
+        this.refs.curtainLeft.style.webkitTransition = 'all 5s';
+        this.refs.curtainRight.style.webkitTransition = 'all 5s';
 
         this.refs.curtainLeft.style.transition = 'all 5s';
         this.refs.curtainRight.style.transition = 'all 5s';
@@ -244,13 +248,11 @@ class Curtain extends Component {
 
         // this._changeAnim(this.refs.curtainRight,'anim_open',this.refs.curtainRight.clientWidth);
 
-        
-
         // this.refs.curtainLeft.classList.add('curtain_open');
         // this.refs.curtainRight.classList.add('curtain_open');
         
         this._changeAnimNew(this.refs.curtainLeft,'anim_open',this.refs.curtainLeft.clientWidth);
-        this._changeAnimNew(this.refs.curtainRight,'anim_open',this.refs.curtainLeft.clientWidth);
+        this._changeAnimNew(this.refs.curtainRight,'anim_open',this.refs.curtainRight.clientWidth);
 
         this.refs.curtainLeft.classList.add('w_5');
         this.refs.curtainRight.classList.add('w_5');
@@ -271,15 +273,17 @@ class Curtain extends Component {
 
         this.refs.curtainLeft.classList.remove('w_50');
         this.refs.curtainRight.classList.remove('w_50');
-
+        
         this.refs.curtainLeft.style.width = this.refs.curtainLeft.clientWidth + 'px';
         this.refs.curtainRight.style.width = this.refs.curtainRight.clientWidth + 'px';
+
+        this.refs.curtainLeft.style.webkitTransition = 'all 0s';
+        this.refs.curtainRight.style.webkitTransition = 'all 0s';
 
         this.refs.curtainLeft.style.transition = 'all 0s';
         this.refs.curtainRight.style.transition = 'all 0s';
 
-
-
+       
         /**this.refs.curtainLeft.style.transition = 'none';
         this.refs.curtainRight.style.transition = 'none';*/
 
@@ -308,7 +312,8 @@ class Curtain extends Component {
         this.refs.curtainLeft.classList.remove('w_5');
         this.refs.curtainRight.classList.remove('w_5');
 
-       
+        this.refs.curtainLeft.style.webkitTransition = 'all 5s';
+        this.refs.curtainRight.style.webkitTransition = 'all 5s';
 
         this.refs.curtainLeft.style.transition = 'all 5s';
         this.refs.curtainRight.style.transition = 'all 5s';
@@ -324,13 +329,11 @@ class Curtain extends Component {
 
         // this._changeAnim(this.refs.curtainRight,'anim_close',this.refs.curtainRight.clientWidth);
 
-        
-
         // this.refs.curtainLeft.classList.add('curtain_close');
         // this.refs.curtainRight.classList.add('curtain_close');
 
         this._changeAnimNew(this.refs.curtainLeft,'anim_close',this.refs.curtainLeft.clientWidth);
-        this._changeAnimNew(this.refs.curtainRight,'anim_close',this.refs.curtainLeft.clientWidth);
+        this._changeAnimNew(this.refs.curtainRight,'anim_close',this.refs.curtainRight.clientWidth);
 
         this.refs.curtainLeft.classList.add('w_50');
         this.refs.curtainRight.classList.add('w_50');
@@ -351,7 +354,7 @@ class Curtain extends Component {
                 <div className="curtain-header"></div>
                 <div className="curtain-body" ref="curtainBody">
                     <div className={`curtain-left`} 
-                    style={{width:`${widthPer}`}}
+                    style={{width:`${widthPer}`,transition:`none`}}
                     ref="curtainLeft"
                     >
                         <div className="curtain-btn-leftWrapper"
@@ -363,7 +366,7 @@ class Curtain extends Component {
                         </div>
                     </div>
                     <div className={`curtain-right`}
-                    style={{width:`${widthPer}`}}
+                    style={{width:`${widthPer}`,transition:`none`}}
                     ref="curtainRight"
                     onTouchStart={(e) => this.curtainTouchStart('right',e)}
                     onTouchMove={(e) => this.curtainTouchMove('right',e)}

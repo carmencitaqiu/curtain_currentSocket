@@ -6,23 +6,11 @@ import App from "./App";
 
 /* 页面路由地址引入 start */
 import Home from "../pages/Home";
+// import LogList from "../pages/LogList";
 
 import Settings from "../pages/Settings";
-import RoomList from "../pages/Settings/RoomList/RoomList";
-import RoomName from "../pages/Settings/RoomName/RoomName";
-import RoomChecked from "../pages/Settings/RoomChecked/RoomChecked";
-
-// 定时路由
-import Timing from "../pages/Timing/Timing";
-import Adding from "../pages/Timing/Adding/Adding";
-import Repeat from "../pages/Timing/Adding/RepeatComm/home";
-import Custom from "../pages/Timing/Custom/custom";
-
-/* 倒计时路由 */
-import Countdown from "../pages/Timer/Countdown";
-
-/* 电量路由 */
-import ElectricPower from "../pages/Timer/ElectricPower";
+import EditDeviceName from "../pages/Settings/EditDeviceName";
+import RoomList from "../pages/Settings/RoomList";
 /* 页面路由地址引入 end */
 
 /* 状态集导入 */
@@ -38,31 +26,20 @@ export default class MainRouter extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/Home" component={Home} />
-              <Route exact path="/Home/PowerOff" component={Home} />
-
-              {/*定时路由*/}
-              <Route exact path="/Timing/Timing" component={Timing}/>
-              {/*定时增加路由*/}
-              <Route exact path="/Timing/Adding" component={Adding}/>
-              {/*定时重复页面增加路由*/}
-              <Route exact path="/Timing/Repeat" component={Repeat}/>
-              {/*定时页面自定义路由*/}
-              <Route exact path="/Timing/Custom" component={Custom}/>
-
-              {/* 倒计时路由 */}
-              <Route exact path="/Timer/Countdown" component={Countdown} />
-              {/* 电量路由 */}
+              {/* <Route exact path="/LogList" component={LogList} /> */}
+              <Route exact path="/Home/DelDevice" component={Home} />
+              <Route exact path="/Settings" component={Settings} />
               <Route
                 exact
-                path="/Timer/ElectricPower"
-                component={ElectricPower}
+                path="/Settings/EditDeviceName"
+                component={EditDeviceName}
               />
-
-              <Route exact path="/Settings" component={Settings} />
-              <Route exact path="/Settings/DeviceName" component={Settings} />
+              <Route
+                exact
+                path="/Settings/ModalDelDevice"
+                component={Settings}
+              />
               <Route exact path="/Settings/RoomList" component={RoomList} />
-              <Route exact path="/Settings/RoomName" component={RoomName} />
-              <Route exact path="/Settings/RoomChecked" component={RoomChecked} />
 
               {/* <Route exact path="/404" component={NotFound} /> */}
               {/* <Redirect to="/404" /> */}
