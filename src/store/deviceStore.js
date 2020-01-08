@@ -36,6 +36,7 @@ class DeviceStore extends BaseStore {
   @observable subDevList = []; // 子设备列表，设备为网关时包含
   @observable roomList = []; // 房间列表，通过getRoomList方法获取
   @observable resourceList = []; // 设备资源列表：这里主要是定时器和倒计时控制
+  @observable houseList = [];
 
   warnList = []; // 设备告警信息列表
   functionList = []; // 设备功能列表
@@ -511,7 +512,8 @@ class DeviceStore extends BaseStore {
         houseName: list ? list.houseName : "",
         houseType: list ? list.houseType : "",
         roomList: list ? list.roomList : [],
-        deviceChangeed: this.deviceChangeed + 1
+        deviceChangeed: this.deviceChangeed + 1,
+        houseList:rst.houseList
       });
     });
   }

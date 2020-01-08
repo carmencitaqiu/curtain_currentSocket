@@ -78,20 +78,20 @@ const list = [
 class Inner extends Component {
   render() {
     const { deviceStore } = this.props;
-    const { roomList, curRoomId } = deviceStore;
+    const { roomList, curRoomId,houseList } = deviceStore;
     return (
       <div className="inner room_outer">
         {
-          list.map((data,idx) => {
+          houseList.map((data,idx) => {
             return (
-              <React.Fragment>
+              <React.Fragment key={data.houseId}>
                 <div className="room_innertitle">{data.houseName}</div>
                   <div className="room_listouter">
                     <div className="list">
                       {
                         data.roomList.map((roomData,rIndex) => {
                           return (
-                          <div className="item">{roomData.roomName}</div>
+                          <div className="item" key={roomData.roomId}>{roomData.roomName}</div>
                           );
                         })
                       }

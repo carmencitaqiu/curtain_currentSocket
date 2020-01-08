@@ -104,42 +104,103 @@ class MockDataStore extends BaseStore {
               roomType: "2"
             },
             {
-              roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620888",
               roomName: "过道",
               roomType: "3"
             },
             {
-              roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620889",
               roomName: "书桌",
               roomType: "4"
             },
             {
-              roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620890",
               roomName: "卧室",
               roomType: "5"
             },
             {
-              roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620891",
               roomName: "活动室",
               roomType: "6"
             },
             {
-              roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620892",
               roomName: "大阳台",
               roomType: "7"
             },
             {
-              roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620893",
               roomName: "衣帽间",
               roomType: "8"
             },
             {
-              roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620894",
               roomName: "玄关",
               roomType: "9"
             },
             {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620895",
+              roomName: "储藏间",
+              roomType: "10"
+            }
+          ]
+        },{
+          houseId: "c5624fc584644173b5852df8be46d2b2",
+          houseName: "我的家2",
+          houseType: "0",
+          roomList: [
+            {
+              roomId: "cfaacb8a9fe0439f889fe19111d85af7",
+              roomName: "厨房",
+              roomType: "0"
+            },
+            {
+              roomId: "d21575c4b81e412d9f8238dc771ca821",
+              roomName: "餐厅",
+              roomType: "1"
+            },
+            {
               roomId: "fbc49ea8da5a42eaacf8fcaf5d620887",
+              roomName: "主卧",
+              roomType: "2"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620888",
+              roomName: "过道",
+              roomType: "3"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620889",
+              roomName: "书桌",
+              roomType: "4"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620890",
+              roomName: "卧室",
+              roomType: "5"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620891",
+              roomName: "活动室",
+              roomType: "6"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620892",
+              roomName: "大阳台",
+              roomType: "7"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620893",
+              roomName: "衣帽间",
+              roomType: "8"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620894",
+              roomName: "玄关",
+              roomType: "9"
+            },
+            {
+              roomId: "fbc49ea8da5a42eaacf8fcaf5d620895",
               roomName: "储藏间",
               roomType: "10"
             }
@@ -190,6 +251,7 @@ class MockDataStore extends BaseStore {
   init() {
     this.initDetail();
     this.initRoomList();
+    this.initHouseList();
   }
 
   initDetail() {
@@ -264,6 +326,12 @@ class MockDataStore extends BaseStore {
       houseType: list ? list.houseType : "",
       roomList: list ? list.roomList : [],
       deviceChangeed: deviceStore.deviceChangeed + 1
+    });
+  }
+
+  initHouseList() {
+    deviceStore.setState({
+      houseList: this.roomListReturn.parameter.houseList
     });
   }
 }
