@@ -2,6 +2,76 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import { withRouter } from "react-router";
 
+
+const list = [
+  {houseId: "01", houseName: "天小翼的家1",
+  roomList: [{
+    roomId: "001",
+    roomName: "厨房"
+  },{
+    roomId: "002",
+    roomName: "餐厅"
+  },{
+    roomId: "003",
+    roomName: "主卧"
+  },{
+    roomId: "004",
+    roomName: "过道"
+  },{
+    roomId: "005",
+    roomName: "卧室"
+  },{
+    roomId: "001",
+    roomName: "厨房"
+  },{
+    roomId: "002",
+    roomName: "餐厅"
+  },{
+    roomId: "003",
+    roomName: "主卧"
+  },{
+    roomId: "004",
+    roomName: "过道"
+  },{
+    roomId: "005",
+    roomName: "卧室"
+  }]
+  },
+  {houseId: "02", houseName: "天小翼的家2",
+  roomList: [{
+    roomId: "001",
+    roomName: "厨房"
+  },{
+    roomId: "002",
+    roomName: "餐厅"
+  },{
+    roomId: "003",
+    roomName: "主卧"
+  },{
+    roomId: "004",
+    roomName: "过道"
+  },{
+    roomId: "005",
+    roomName: "卧室"
+  },{
+    roomId: "001",
+    roomName: "厨房"
+  },{
+    roomId: "002",
+    roomName: "餐厅"
+  },{
+    roomId: "003",
+    roomName: "主卧"
+  },{
+    roomId: "004",
+    roomName: "过道"
+  },{
+    roomId: "005",
+    roomName: "卧室"
+  }]
+  }
+];
+
 @inject("deviceStore")
 @withRouter
 @observer
@@ -11,65 +81,25 @@ class Inner extends Component {
     const { roomList, curRoomId } = deviceStore;
     return (
       <div className="inner room_outer">
-        <div>
-          <div className="room_innertitle">天小翼的家</div>
-          <div className="room_listouter">
-            <div className="list">
-              <div className="item">厨房</div>
-              <div className="item">餐厅</div>
-              <div className="item">主卧</div>
-              <div className="item">过道</div>
-              <div className="item">书桌</div>
-              <div className="item active">卧室</div>
-              <div className="item">活动室</div>
-              <div className="item">大阳台</div>
-              <div className="item">厨房</div>
-              <div className="item">餐厅</div>
-              <div className="item">主卧</div>
-              <div className="item">过道</div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div className="room_innertitle">天小翼的家</div>
-          <div className="room_listouter">
-            <div className="list">
-              <div className="item">厨房</div>
-              <div className="item">餐厅</div>
-              <div className="item">主卧</div>
-              <div className="item">过道</div>
-              <div className="item">书桌</div>
-              <div className="item">卧室</div>
-              <div className="item">活动室</div>
-              <div className="item">大阳台</div>
-              <div className="item">厨房</div>
-              <div className="item">餐厅</div>
-              <div className="item">主卧</div>
-              <div className="item">过道</div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div className="room_innertitle">天小翼的家</div>
-          <div className="room_listouter">
-            <div className="list">
-              <div className="item">厨房</div>
-              <div className="item">餐厅</div>
-              <div className="item">主卧</div>
-              <div className="item">过道</div>
-              <div className="item">书桌</div>
-              <div className="item">卧室</div>
-              <div className="item">活动室</div>
-              <div className="item">大阳台</div>
-              <div className="item">厨房</div>
-              <div className="item">餐厅</div>
-              <div className="item">主卧</div>
-              <div className="item">过道</div>
-            </div>
-          </div>
-        </div>
+        {
+          list.map((data,idx) => {
+            return (
+              <React.Fragment>
+                <div className="room_innertitle">{data.houseName}</div>
+                  <div className="room_listouter">
+                    <div className="list">
+                      {
+                        data.roomList.map((roomData,rIndex) => {
+                          return (
+                          <div className="item">{roomData.roomName}</div>
+                          );
+                        })
+                      }
+                    </div>
+                  </div>
+            </React.Fragment>
+            );
+          })}
 
         {/* <ul className="Setting-list">
           {roomList.map((d, i) => {
