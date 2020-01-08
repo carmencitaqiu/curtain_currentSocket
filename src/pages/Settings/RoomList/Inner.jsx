@@ -10,8 +10,68 @@ class Inner extends Component {
     const { deviceStore } = this.props;
     const { roomList, curRoomId } = deviceStore;
     return (
-      <div className="inner">
-        <ul className="Setting-list">
+      <div className="inner room_outer">
+        <div>
+          <div className="room_innertitle">天小翼的家</div>
+          <div className="room_listouter">
+            <div className="list">
+              <div className="item">厨房</div>
+              <div className="item">餐厅</div>
+              <div className="item">主卧</div>
+              <div className="item">过道</div>
+              <div className="item">书桌</div>
+              <div className="item active">卧室</div>
+              <div className="item">活动室</div>
+              <div className="item">大阳台</div>
+              <div className="item">厨房</div>
+              <div className="item">餐厅</div>
+              <div className="item">主卧</div>
+              <div className="item">过道</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="room_innertitle">天小翼的家</div>
+          <div className="room_listouter">
+            <div className="list">
+              <div className="item">厨房</div>
+              <div className="item">餐厅</div>
+              <div className="item">主卧</div>
+              <div className="item">过道</div>
+              <div className="item">书桌</div>
+              <div className="item">卧室</div>
+              <div className="item">活动室</div>
+              <div className="item">大阳台</div>
+              <div className="item">厨房</div>
+              <div className="item">餐厅</div>
+              <div className="item">主卧</div>
+              <div className="item">过道</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="room_innertitle">天小翼的家</div>
+          <div className="room_listouter">
+            <div className="list">
+              <div className="item">厨房</div>
+              <div className="item">餐厅</div>
+              <div className="item">主卧</div>
+              <div className="item">过道</div>
+              <div className="item">书桌</div>
+              <div className="item">卧室</div>
+              <div className="item">活动室</div>
+              <div className="item">大阳台</div>
+              <div className="item">厨房</div>
+              <div className="item">餐厅</div>
+              <div className="item">主卧</div>
+              <div className="item">过道</div>
+            </div>
+          </div>
+        </div>
+
+        {/* <ul className="Setting-list">
           {roomList.map((d, i) => {
             const { roomId, roomName } = d;
             return (
@@ -27,7 +87,7 @@ class Inner extends Component {
               </li>
             );
           })}
-        </ul>
+        </ul> */}
       </div>
     );
   }

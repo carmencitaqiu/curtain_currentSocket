@@ -7,7 +7,7 @@ class Settings extends Component {
   render() {
     return (
       <MainPage>
-        <Head>所属房间</Head>
+        <Head>位置管理</Head>
         <Inner />
       </MainPage>
     );

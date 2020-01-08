@@ -46,6 +46,39 @@
         font-size: 48px;
         color: #000;
     }
+
+    .room_outer {
+      padding: 0 56px;
+      .room_innertitle {
+        color:#2F3243;
+        font-size: 46px;
+        font-weight: bolder;
+        line-height: 150px;
+        height:100px;
+      }
+      .room_listouter {
+        padding: 64px 0;
+        .list {
+          display: flex;
+          flex-wrap: wrap;
+          .item {
+            width: 22%;
+            margin: 0 1% 25px 1%;
+            height: 80px;
+            line-height: 80px;
+            color: #686A74;
+            text-align: center;
+            background: #f7f7f7;
+            border-radius: 5.6px;
+            font-size: 40px;
+            &.active {
+              color:#fff;
+              background:#3BA1FF;
+            }
+          }
+        }
+      }
+    }
     .inner-setting {
         .setting-common,
         .setting-function,
