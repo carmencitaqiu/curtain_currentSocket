@@ -36,6 +36,6 @@ setTimeout(() => {
   if (config.debug) {
     eruda.init();
     // 模拟数据初始化
-    mockDataStore.init();
+    // mockDataStore.init();
   }
 }, 0);
