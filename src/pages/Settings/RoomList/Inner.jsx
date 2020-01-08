@@ -90,8 +90,11 @@ class Inner extends Component {
                     <div className="list">
                       {
                         data.roomList.map((roomData,rIndex) => {
+                          const { roomId, roomName } = roomData;
                           return (
-                          <div className="item" key={roomData.roomId}>{roomData.roomName}</div>
+                          <div className={`item${roomId === curRoomId ? " active" : ""}`} key={roomId} 
+                            onClick={() => deviceStore.setRoomId(roomId)}>
+                            {roomName}</div>
                           );
                         })
                       }
@@ -118,6 +121,7 @@ class Inner extends Component {
             );
           })}
         </ul> */}
+
       </div>
     );
   }
