@@ -1,176 +1,181 @@
 .container {
-    .top{
-          .top-name{
-              font-size: 50px;
-              text-align: center;
-              height: 190px;
-              background: #24B2FF;
-              position: relative;
-          p.name {
-              color: #fff;
-              line-height: 190px;
-              position: absolute;
-              height: 100%;
-              width: 100%;
-            }
-          }
-        .device-name {
-            position: relative;
-            border-bottom: 1px solid #dbdcdc;
-            .title {
-              height: 100%;
-              width: 100%;
-              text-align: center;
-              line-height: 185px;
-              position: absolute;
-              background: #fff;
-            }
-            .confirm {
-              position: absolute;
-              text-indent: 0;
-              right: 60px;
-              top: 50%;
-              transform: translateY(-50%);
-              font-size: 40px;
-              color: #3ba1ff;
-            }
-        }
-    }
-    .Setting-top {
-        background: #fff;
-        padding: 0;
-        text-align: center;
-        height: 190px;
+  .top {
+    .top-name {
+      font-size: 50px;
+      text-align: center;
+      height: 190px;
+      background: #24b2ff;
+      position: relative;
+      p.name {
+        color: #fff;
         line-height: 190px;
-        border: none;
-        font-size: 48px;
-        color: #000;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+      }
     }
-    .inner-setting {
-        .setting-common,
-        .setting-function,
-        .setting-other {
-            .am-list.my-list {
-                .am-list-body {
-                    .am-list-item {
-                        .am-list-line {
-                            .am-list-content {
-                                font-size: 44px;
-                            }
-                            .am-list-extra {
-                                font-size: 44px;
-                                flex-basis: 70%;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .delDevice {
-            margin-top: 100px;
-            font-size: 44px;
-            color: #f4333c;
-        }
-    }
-    
-    .inner.device-name-info {
+    .device-name {
+      position: relative;
+      border-bottom: 1px solid #dbdcdc;
+      .title {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        line-height: 185px;
+        position: absolute;
         background: #fff;
-        padding: 0 40px;
-        font-size: 36px;
-        color: #9ba3b0;
-        .input-name {
-          .label {
-            margin-top: 20px;
-          }
-          .am-list {
-            margin-bottom: 40px;
-            .am-list-body {
-              .am-list-item {
-                padding: 0;
-                .am-input-control {
-                  input {
-                    font-size: 36px;
-                  }
-                }
+      }
+      .confirm {
+        position: absolute;
+        text-indent: 0;
+        right: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 40px;
+        color: #3ba1ff;
+      }
+    }
+  }
+  .Setting-top {
+    background: #fff;
+    padding: 0;
+    text-align: center;
+    height: 190px;
+    line-height: 190px;
+    border: none;
+    font-size: 48px;
+    color: #000;
+  }
+  .inner-setting {
+    .setting-common,
+    .setting-function,
+    .setting-other {
+      .am-list.my-list {
+        .am-list-body {
+          .am-list-item {
+            .am-list-line {
+              .am-list-content {
+                font-size: 44px;
+              }
+              .am-list-extra {
+                font-size: 44px;
+                flex-basis: 70%;
               }
             }
-            .am-list-body:before {
-              height: 0;
+          }
+        }
+      }
+    }
+    .delDevice {
+      margin-top: 100px;
+      font-size: 44px;
+      color: #f4333c;
+    }
+  }
+
+  .inner.device-name-info {
+    background: #fff;
+    padding: 0 40px;
+    font-size: 36px;
+    color: #9ba3b0;
+    .input-name {
+      .label {
+        margin-top: 20px;
+      }
+      .am-list {
+        margin-bottom: 40px;
+        .am-list-body {
+          .am-list-item {
+            padding: 0;
+            .am-input-control {
+              input {
+                font-size: 36px;
+              }
             }
           }
         }
-        .suggest-name {
-          margin-top: 100px;
-          font-size: 40px;
-          .title {
-            margin-bottom: 40px;
-          }  
-          .list {
-            display: flex;
-            flex-wrap: wrap;
-            .item {
-              width: 22%;
-              margin: 0 3% 20px 0;
-              height: 80px;
-              line-height: 80px;
-              border: 1px solid #cbd2dc;
-              text-align: center;
-            }
-            .item.active {
-              border-color: #3ba1ff;
-            }
-          }
+        .am-list-body:before {
+          height: 0;
         }
-        .save {
-            background: #3ba1ff;
-            position: absolute;
-            width: 92%;
-            bottom: 100px;
+      }
+    }
+    .suggest-name {
+      margin-top: 100px;
+      font-size: 40px;
+      .title {
+        margin-bottom: 40px;
+      }
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        .item {
+          width: 22%;
+          margin: 0 3% 20px 0;
+          height: 80px;
+          line-height: 80px;
+          border: 1px solid #cbd2dc;
+          text-align: center;
         }
+        .item.active {
+          border-color: #3ba1ff;
+        }
+      }
     }
-    .inner{
-      background: #fff !important;
+    .suggest-name.hide {
+      display: none;
     }
+    .save-name {
+      background: #3ba1ff;
+      width: 90%;
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  .inner {
+    background: #fff !important;
+  }
 }
 .del-modal {
-    .am-modal-content {
-        padding: 0;
-        .am-modal-body {
-            padding: 0;
-            .wrap {
-                color: #000;
+  .am-modal-content {
+    padding: 0;
+    .am-modal-body {
+      padding: 0;
+      .wrap {
+        color: #000;
 
-                .top {
-                    border-bottom: 1px solid #ccc;
+        .top {
+          border-bottom: 1px solid #ccc;
 
-                    .tips {
-                        margin: 40px 0 0 0;
-                    }
+          .tips {
+            margin: 40px 0 0 0;
+          }
 
-                    .content {
-                        margin: 20px 0 40px 0;
-                    }
-                }
-
-                .bottom {
-                    display: flex;
-
-                    .button {
-                        height: 120px;
-                        line-height: 120px;
-                        text-align: center;
-                    }
-
-                    .cancel {
-                        width: 49.95%;
-                        border-right: 1px solid #ccc;
-                    }
-
-                    .confirm {
-                        flex: 1;
-                    }
-                }
-            }
+          .content {
+            margin: 20px 0 40px 0;
+          }
         }
+
+        .bottom {
+          display: flex;
+
+          .button {
+            height: 120px;
+            line-height: 120px;
+            text-align: center;
+          }
+
+          .cancel {
+            width: 49.95%;
+            border-right: 1px solid #ccc;
+          }
+
+          .confirm {
+            flex: 1;
+          }
+        }
+      }
     }
+  }
 }

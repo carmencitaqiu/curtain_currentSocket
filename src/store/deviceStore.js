@@ -35,6 +35,7 @@ class DeviceStore extends BaseStore {
   @observable curSerialId = "0"; // 当前所选择的线路id，初始获取设备详情时，默认取第一个线路id
   @observable subDevList = []; // 子设备列表，设备为网关时包含
   @observable roomList = []; // 房间列表，通过getRoomList方法获取
+  @observable recommendDeviceNameList = []; //设备推荐名称列表
   @observable resourceList = []; // 设备资源列表：这里主要是定时器和倒计时控制
 
   warnList = []; // 设备告警信息列表
@@ -401,7 +402,7 @@ class DeviceStore extends BaseStore {
 
     // NOTE 如果是调试模式，这里会给一款默认调试设备
     if (configStore.debug) {
-      deviceId = deviceId || "D1D0010001085212052020010700010302";
+      deviceId = deviceId || "D1D0010001085212052020011300002910";
     }
     this.deviceId = deviceId;
 
@@ -513,6 +514,57 @@ class DeviceStore extends BaseStore {
         roomList: list ? list.roomList : [],
         deviceChangeed: this.deviceChangeed + 1
       });
+    });
+  }
+
+  /**
+   * 
+   * @method 获取房子列表
+   */
+  getHouseList() {
+    // NOTE 阻止设备详情未读取时获取该值
+    if (!this.isControl) return;
+    nativeStore.callAppMethod("jsGetRoomList", "", rst => {
+      //设置房子列表
+      this.setState({ houseList: rst.houseList || [] });
+    });
+  }
+  /**
+   * @method 获取设备推荐名称列表
+   * @param {string} deviceId
+   */
+  getRecommendDevName(deviceId) {
+    if (deviceId) {
+      nativeStore.callAppMethod("jsGetRecommendDevName", deviceId, res => {
+        const list = res.alias;
+        if (list && list.length) {
+          this.setState({ recommendDeviceNameList: list, deviceChangeed: this.deviceChangeed + 1 });
+        } else {
+          this.setState({ recommendDeviceNameList: [] });
+        }
+      });
+    } else {
+      this.toastString("deviceId不能为空");
+    }
+  }
+
+  /**
+   * @method 获取倒计时信息
+   * @requires 必须先获取设备详情
+   */
+  getTimeInfo() {
+    // NOTE 阻止设备详情未读取时获取该值
+    if (!this.isControl) return;
+
+    nativeStore.callAppMethod("jsGetTimeInfo", "" + this.deviceId, rst => {
+      //设置倒计时信息
+      this.setState({
+        timeInfo: rst
+      });
+      //如果当前倒计时正在进行，则H5本地也同步开始进行倒计时，但是误差会有1分钟内的时间
+      if (rst.isShow) {
+        hangerStore.openOrClose();
+      }
     });
   }
   //.........................删除设备
@@ -643,6 +695,7 @@ class DeviceStore extends BaseStore {
         //强制刷新
         this.setState({ deviceChangeed: this.deviceChangeed + 1 });
         this.toastString("设置成功");
+        this.init();
       };
     nativeStore.callAppMethod("jsSetDeviceProperty", data, success);
   }
@@ -1109,6 +1162,10 @@ class DeviceStore extends BaseStore {
     if (!this.isControl) return;
 
     nativeStore.callAppMethod("jsJumToDefineBrandListPage", this.manufacturer);
+  }
+  
+  goIntelligentPage() {
+    nativeStore.callAppMethod("jsJumpToIntelligentPage","");
   }
 
   /*** 以下源生方法 - 与设备无关 ****/

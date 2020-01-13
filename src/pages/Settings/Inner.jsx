@@ -30,6 +30,10 @@ class Inner extends Component {
   showDelDeviceModal = () => {
     this.props.history.push("Settings/ModalDelDevice");
   };
+
+  goIntelligence = () => {
+    this.props.deviceStore.goIntelligentPage();
+  };
   render() {
     const { name, roomMap, curRoomId } = this.props.deviceStore;
     return (
@@ -50,9 +54,9 @@ class Inner extends Component {
             >
               位置管理
             </Item>
-            {/* <Item arrow="horizontal" onClick={() => { }}>
+            <Item arrow="horizontal" onClick={this.goIntelligence}>
               智能
-            </Item> */}
+            </Item>
           </List>
         </div>
         {/* <div className="setting-function">
