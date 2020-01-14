@@ -404,7 +404,7 @@ class DeviceStore extends BaseStore {
 
     // NOTE 如果是调试模式，这里会给一款默认调试设备
     if (configStore.debug) {
-      deviceId = deviceId || "D1D0010001085212052020011400000754";
+      deviceId = deviceId || "D1D0010001085212052020011400012307";
     }
     this.deviceId = deviceId;
 
@@ -481,6 +481,7 @@ class DeviceStore extends BaseStore {
         //   this.getAPPLoglist(); // 获取设备告警信息/状态信息列表
         // }, 700);
       }, 500);
+      document.title = deviceName;
     });
   }
 

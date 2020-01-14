@@ -45,12 +45,13 @@ class EditDeviceName extends Component {
   confirm = () => {
     const val = this.state.value;
     const { deviceStore, history } = this.props;
-    const bool = deviceStore.checkName(val);
+    // const bool = deviceStore.checkName(val);
     if (!val) {
       deviceStore.toastString("请输入设备名称");
-    } else if (!bool) {
-      return;
-    } else {
+    } 
+    /**else if (!bool) {
+      return;} */
+     else {
       deviceStore.setDeviceName(val);
       history.goBack();
     }
