@@ -25,8 +25,21 @@ class EditDeviceName extends Component {
   }
   //表单change
   onChange = val => {
-    // console.log(val);
-    this.setState({ value: val });
+    const containSpecial = RegExp(/[\ \~\!\@\#\$\%\^\&\*\_\+\=\[\]\{\}\|\\\;\:\'\"\,\.\/\<\>\?]+/);
+    if (val) {
+      if (!containSpecial.test(val)) {
+        this.setState({
+          hasError: false,
+        });
+        this.setState({ value: val });
+      } else {
+        this.setState({
+          hasError: true,
+        });
+      }
+    } else {
+      this.setState({ value: val });
+    }
   };
   //确认,提交表单
   confirm = () => {
