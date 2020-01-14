@@ -404,7 +404,7 @@ class DeviceStore extends BaseStore {
 
     // NOTE 如果是调试模式，这里会给一款默认调试设备
     if (configStore.debug) {
-      deviceId = deviceId || "D1D0010001085212052020011400012307";
+      deviceId = deviceId || "D1D0010001085212052020011400017304";
     }
     this.deviceId = deviceId;
 
@@ -593,6 +593,7 @@ class DeviceStore extends BaseStore {
       ? _success
       : () => {
         this.toastString("设置成功");
+        this.closeWebView();
       };
     nativeStore.callAppMethod("jsUnbindDevice", deviceId, success);
   }

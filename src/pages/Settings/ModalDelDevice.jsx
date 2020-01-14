@@ -20,7 +20,7 @@ class ModalDelDevice extends Component {
     const { deviceStore, history } = this.props;
     const { deviceId } = deviceStore;
     deviceStore.unbindDevice(deviceId);
-    history.goBack();
+    // history.goBack();
   };
   render() {
     const { isShowDelDeviceModal } = this.props.deviceStore;
