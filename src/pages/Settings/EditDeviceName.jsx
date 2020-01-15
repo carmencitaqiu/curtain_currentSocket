@@ -25,33 +25,19 @@ class EditDeviceName extends Component {
   }
   //表单change
   onChange = val => {
-    const containSpecial = RegExp(/[\ \~\!\@\#\$\%\^\&\*\_\+\=\[\]\{\}\|\\\;\:\'\"\,\.\/\<\>\?]+/);
-    if (val) {
-      if (!containSpecial.test(val)) {
-        this.setState({
-          hasError: false,
-        });
-        this.setState({ value: val });
-      } else {
-        this.setState({
-          hasError: true,
-        });
-      }
-    } else {
-      this.setState({ value: val });
-    }
+    this.setState({ value: val });
   };
   //确认,提交表单
   confirm = () => {
     const val = this.state.value;
     const { deviceStore, history } = this.props;
-    // const bool = deviceStore.checkName(val);
+    const bool = deviceStore.checkName(val);
     if (!val) {
       deviceStore.toastString("请输入设备名称");
-    } 
-    /**else if (!bool) {
-      return;} */
-     else {
+    } else if (!bool) {
+      deviceStore.toastString("只支持中文、英文、数字、_、-、.及()且长度1到15");
+      return;
+    } else {
       deviceStore.setDeviceName(val);
       history.goBack();
     }

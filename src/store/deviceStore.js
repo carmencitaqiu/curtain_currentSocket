@@ -21,7 +21,7 @@ class DeviceStore extends BaseStore {
   };
 
   deviceId = ""; // 设备唯一标识
-  deviceName = ""; // 设备名称（默认为设备商品名称，当商品名称为空时，默认为设备型号）
+  @observable deviceName = ""; // 设备名称（默认为设备商品名称，当商品名称为空时，默认为设备型号）
   // NOTE  默认设备名称，如果线路中的属性name为空时，取这个为默认值
 
   platform = ""; // 归属平台ID
@@ -1168,6 +1168,9 @@ class DeviceStore extends BaseStore {
     nativeStore.callAppMethod("jsJumToDefineBrandListPage", this.manufacturer);
   }
   
+  /**
+   * @method 跳转到智能（原生页）
+   */
   goIntelligentPage() {
     nativeStore.callAppMethod("jsJumpToIntelligentPage","");
   }
@@ -1263,6 +1266,21 @@ class DeviceStore extends BaseStore {
     let r = search.substr(search.indexOf("?") + 1).match(reg);
     if (r !== null) return decodeURI(r[2]);
     return "";
+  }
+
+  /**
+   * @method 校验名称
+   * @param {String} name
+   * @returns {Boolean}
+   */
+  checkName(name) {
+    const reg = /(?=^.{1,15}$)(?:[\u4e00-\u9fa5A-Za-z0-9_.（）()\-]+)/;
+    if (!name.length) return;
+    if (!reg.test(name)) {
+      this.toastString("只支持中文、英文、数字、_、-、.及()且长度1到15");
+      return false;
+    }
+    return true;
   }
 }
 const deviceStore = new DeviceStore();
