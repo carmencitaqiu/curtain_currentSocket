@@ -1275,8 +1275,9 @@ class DeviceStore extends BaseStore {
    */
   checkName(name) {
     const reg = /(?=^.{1,15}$)(?:[\u4e00-\u9fa5A-Za-z0-9_.（）()\-]+)/;
+    const containSpecial = RegExp(/[\ \~\!\@\#\$\%\^\&\*\_\+\=\[\]\{\}\|\\\;\:\'\"\,\.\/\<\>\?]+/);
     if (!name.length) return;
-    if (!reg.test(name)) {
+    if (!reg.test(name)||containSpecial.test(name)) {
       this.toastString("只支持中文、英文、数字、_、-、.及()且长度1到15");
       return false;
     }
