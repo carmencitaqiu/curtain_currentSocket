@@ -6,7 +6,7 @@
 class ConfigStore {
   projectName = "Gateway"; //当前项目名
 
-  debug = !!1; // 默认启用调试模式，[生产环境时，请把1改成0]
+  debug = !!0; // 默认启用调试模式，[生产环境时，请把1改成0]
 
   apiUrl = "/nowIsNull"; // 项目API请求地址中间名
 
