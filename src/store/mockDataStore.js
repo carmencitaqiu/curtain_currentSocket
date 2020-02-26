@@ -6,7 +6,7 @@ class MockDataStore extends BaseStore {
     parameter: {
       device: {
         deviceId: "00B0150102020310210659151785768923",
-        deviceName: "智能开关",
+        deviceName: "某某窗帘",
         deviceOnLine: "1",
         brand: "01",
         deviceType: "",

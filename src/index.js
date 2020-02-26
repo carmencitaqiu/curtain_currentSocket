@@ -34,7 +34,7 @@ ReactDOM.render(<MainRouter />, document.getElementById("root"));
 setTimeout(() => {
   // NOTE 如果是调试模式，则加载可视化控制台组件
   if (config.debug) {
-    eruda.init();
+    // eruda.init();
     // 模拟数据初始化
     // mockDataStore.init();
   }

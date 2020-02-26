@@ -1,0 +1,15 @@
+{
+  "common": {
+    "showIntelligence": "1",
+    "showDeviceName": "1",
+    "showLocation": "1",
+    "showSafeInfoNotify": "1"
+  },
+  "function": {
+    "showEditSocket": "0"
+  },
+  "other": {
+    "showFirmwareUpdate": "0",
+    "showUsualProblems": "1"
+  }
+}

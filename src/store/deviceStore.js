@@ -35,6 +35,7 @@ class DeviceStore extends BaseStore {
   @observable curSerialId = "0"; // 当前所选择的线路id，初始获取设备详情时，默认取第一个线路id
   @observable subDevList = []; // 子设备列表，设备为网关时包含
   @observable roomList = []; // 房间列表，通过getRoomList方法获取
+  @observable recommendDeviceNameList = []; //设备推荐名称列表
   @observable resourceList = []; // 设备资源列表：这里主要是定时器和倒计时控制
   @observable houseList = [];
 
@@ -308,10 +309,57 @@ class DeviceStore extends BaseStore {
         deviceAttributes: [
           {
             serialId: curSerialId,
-            attributes: [{ attribName: "name", attribValue: deviceName }]
+            attributes: [
+              {
+                attribName: "name",
+                attribValue: deviceName
+              }
+            ]
           }
         ]
-      });
+      },null,true,deviceName);
+    }
+  }
+
+  /**
+   * @method 设置设备当前线路所属房间
+   * @param {String | String} houseId roomId
+   * @note [此处方法自动读取当前线路设置相应的属性roomId的值]
+   * @time 2020-01-10
+   */
+  @action
+  setRoomId_(houseId, roomId) {
+    // NOTE 阻止设备详情未读取时设置该值
+    if (!this.isControl) return;
+
+    const { curRoomId, curSerialId } = this;
+    if (curRoomId !== roomId) {
+      const data = {
+        roomDeviceList:[{
+          houseId,roomId,
+          deviceList: [this.deviceId]
+        }]
+      };
+      this.setRoomDevice(data);
+      // 过滤房间id一致的情况
+      /**this.setDeviceProperty({
+        deviceAttributes: [
+          {
+            serialId: curSerialId,
+            attributes: [
+              {
+                attribName: "houseId",
+                attribValue: houseId
+              },
+              {
+                attribName: "roomId",
+                attribValue: roomId
+              }
+            ]
+          }
+        ]
+      });*/
+
     }
   }
 
@@ -451,6 +499,8 @@ class DeviceStore extends BaseStore {
       this.deviceType = deviceType || ""; // 0：普通设备，1：网关设备，2：子设备，3：附属普通设备，4：附属子设备，5：他人共享的设备
       this.parentDevId = parentDevId || ""; // 上级设备标识，此处填网关/属主设备的ID
 
+      this.setDeviceTitle(deviceName);
+
       this.setState({
         deviceStatus: deviceStatus || [], // 设备当前状态，设备的全部状态，如开关，模式等。
         curSerialId: deviceAttributes[0].serialId, // 当前所选择的线路id，初始获取设备详情时，默认取第一个线路id
@@ -480,6 +530,10 @@ class DeviceStore extends BaseStore {
         // }, 700);
       }, 500);
     });
+  }
+
+  setDeviceTitle(deviceName) {
+    nativeStore.callAppMethod("jsUpdateTitle", deviceName);
   }
 
   /**
@@ -540,9 +594,35 @@ class DeviceStore extends BaseStore {
       ? _success
       : () => {
         this.toastString("设置成功");
+        this.closeWebView();
       };
     nativeStore.callAppMethod("jsUnbindDevice", deviceId, success);
   }
+
+
+    /**
+   * @method 获取设备推荐名称列表
+   * @param {string} deviceId
+   */
+  getRecommendDevName(deviceId) {
+    if (deviceId) {
+      nativeStore.callAppMethod("jsGetRecommendDevName", deviceId, res => {
+        const list = res.alias;
+        if (list && list.length) {
+          this.setState({ recommendDeviceNameList: list, deviceChangeed: this.deviceChangeed + 1 });
+        } else {
+          this.setState({ recommendDeviceNameList: [] });
+        }
+      });
+    } else {
+      this.toastString("deviceId不能为空");
+    }
+  }
+
+  jumpToIntelligentPage() {
+    nativeStore.callAppMethod("jsJumpToIntelligentPage","");
+  }
+
   /**
    * @method 控制设备统一方法
    * @param {Object} data
@@ -596,6 +676,17 @@ class DeviceStore extends BaseStore {
     nativeStore.callAppMethod("jsControlDevice", data, success);
   }
 
+  @action
+  setRoomDevice(data, _success) {
+    const success = _success 
+    ? _success
+    : () => {
+      this.toastString("修改房间成功");
+      this.init();
+    };
+    nativeStore.callAppMethod("jsRoomDeviceSet",data,success);
+  }
+
   /**
    * @method 设置设备属性统一方法
    * @param {Object} data
@@ -613,7 +704,7 @@ class DeviceStore extends BaseStore {
    * });
    */
   @action
-  setDeviceProperty(data, _success) {
+  setDeviceProperty(data, _success,isModifyName,deviceName) {
     // NOTE 阻止设备详情未读取时设置该值
     if (!this.isControl) return;
 
@@ -643,7 +734,15 @@ class DeviceStore extends BaseStore {
         });
 
         //强制刷新
-        this.setState({ deviceChangeed: this.deviceChangeed + 1 });
+        this.setState({
+          deviceChangeed: this.deviceChangeed + 1
+        });
+        if (isModifyName) {
+          this.setState({
+            deviceName:deviceName
+          });
+          nativeStore.callAppMethod("jsUpdateTitle", deviceName);
+        }
         this.toastString("设置成功");
       };
     nativeStore.callAppMethod("jsSetDeviceProperty", data, success);
@@ -1204,6 +1303,22 @@ class DeviceStore extends BaseStore {
     let r = search.substr(search.indexOf("?") + 1).match(reg);
     if (r !== null) return decodeURI(r[2]);
     return "";
+  }
+
+    /**
+   * @method 校验名称
+   * @param {String} name
+   * @returns {Boolean}
+   */
+  checkName(name) {
+    const reg = /(?=^.{1,15}$)(?:[\u4e00-\u9fa5A-Za-z0-9_.（）()\-]+)/;
+    const containSpecial = RegExp(/[\ \~\!\@\#\$\%\^\&\*\_\+\=\[\]\{\}\|\\\;\:\'\"\,\.\/\<\>\?]+/);
+    if (!name.length) return;
+    if (!reg.test(name)||containSpecial.test(name)) {
+      this.toastString("只支持中文、英文、数字、_、-、.及()且长度1到15");
+      return false;
+    }
+    return true;
   }
 }
 const deviceStore = new DeviceStore();

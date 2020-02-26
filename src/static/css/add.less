@@ -352,6 +352,35 @@
   }
 }
 
+.houseInfo {
+  padding: 0 30px 80px 30px;
+  font-size: 50px;
+  .houseName {
+    font-weight: 600;
+    margin-bottom: 60px;
+  }
+  .roomList {
+    margin: 40px 0;
+    display: flex;
+    flex-wrap: wrap;
+    .roomItem {
+      width: 22%;
+      font-size: 44px;
+      padding: 16px 20px;
+      margin: 0 3% 20px 0;
+      background: #f7f7f7;
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .roomItem.active {
+      background: #3ba1ff;
+      color: #fff;
+    }
+  }
+}
+
 /* 自定义弹出框 */
 .Modal {
   font-size: 45px;

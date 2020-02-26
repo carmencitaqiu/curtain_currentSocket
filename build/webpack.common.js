@@ -6,6 +6,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const settingsConfig = require("../settingsConfig.json");
 
 const commonConfig = {
   entry: {
@@ -68,6 +69,9 @@ const commonConfig = {
   },
   plugins: [
     new ProgressBarPlugin(),
+    new webpack.DefinePlugin({
+      SETTINGS_CONFIG: JSON.stringify(settingsConfig)
+    }),
     new CopyWebpackPlugin([{
       from: "www/common",
       to: "common"
